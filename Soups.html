@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vegetarian Recipes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .recipe-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .recipe-card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .recipe-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .recipe-card img {
+      max-width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .recipe-card h2 {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body><!-- Add this inside the <body> tag, replacing or in addition to your desserts -->
+
+<div id="soup-grid-view">
+    <h1>Warm Up with Soups</h1>
+    
+    <div class="recipe-grid">
+        <div class="recipe-card" onclick="showRecipe('tomato-soup')">
+            <img src="https://www.vegrecipesofindia.com/wp-content/uploads/2021/01/tomato-soup-recipe-1.jpg" alt="Tomato Soup">
+            <h2>Tomato Soup</h2>
+        </div>
+        <div class="recipe-card" onclick="showRecipe('sweet-corn-soup')">
+            <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2021/03/sweet-corn-soup-recipe.jpg" alt="Sweet Corn Soup">
+            <h2>Sweet Corn Soup</h2>
+        </div>
+        <div class="recipe-card" onclick="showRecipe('hot-sour-soup')">
+            <img src="https://www.vegrecipesofindia.com/wp-content/uploads/2019/12/hot-and-sour-soup-1.jpg" alt="Hot and Sour Soup">
+            <h2>Hot & Sour Soup</h2>
+        </div>
+        <div class="recipe-card" onclick="showRecipe('mushroom-soup')">
+            <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2021/08/mushroom-soup-recipe.jpg" alt="Mushroom Soup">
+            <h2>Cream of Mushroom</h2>
+        </div>
+        <div class="recipe-card" onclick="showRecipe('rasam')">
+            <img src="https://www.vegrecipesofindia.com/wp-content/uploads/2021/01/rasam-recipe-1.jpg" alt="Rasam">
+            <h2>Rasam</h2>
+        </div>
+    </div>
+</div>
+
+<!-- Add this below the soup grid section -->
+<!-- TOMATO SOUP -->
+<div id="tomato-soup" class="recipe-container">
+    <div class="recipe-content">
+        <h1>Tomato Soup</h1>
+        <p>A creamy and slightly tangy soup made with ripe tomatoes, spices, and a touch of cream.</p>
+        <h2>Ingredients</h2>
+        <ul>
+            <li>4 large ripe tomatoes</li>
+            <li>1 onion, chopped</li>
+            <li>2 garlic cloves</li>
+            <li>1 tsp butter</li>
+            <li>Salt and pepper to taste</li>
+            <li>Cream (for garnish)</li>
+        </ul>
+        <h2>Preparation Steps</h2>
+        <ol>
+            <li>Boil tomatoes until soft. Cool and blend into a puree.</li>
+            <li>Heat butter, sauté onions and garlic. Add tomato puree.</li>
+            <li>Simmer for 10–15 mins. Season with salt and pepper.</li>
+            <li>Blend again if needed. Garnish with cream before serving.</li>
+        </ol>
+        <div class="action-buttons">
+            <a href="https://www.vegrecipesofindia.com/tomato-soup-recipe/" class="btn btn-link" target="_blank">Learn More</a>
+            <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+        </div>
+    </div>
+    <div class="recipe-sidebar">
+        <div class="recipe-image" style="background-image: url('https://www.vegrecipesofindia.com/wp-content/uploads/2021/01/tomato-soup-recipe-1.jpg')"></div>
+        <div class="nutrition-info">
+            <h2>Nutrition (per bowl)</h2>
+            <p><strong>Calories:</strong> 90 kcal</p>
+            <p><strong>Carbs:</strong> 14g</p>
+            <p><strong>Protein:</strong> 2g</p>
+            <p><strong>Fat:</strong> 3g</p>
+        </div>
+    </div>
+</div>
+
+
+<div id="sweet-corn-soup" class="recipe-container">
+    <div class="recipe-content">
+        <h1>Sweet Corn Soup</h1>
+        <p>A mild and comforting soup made with sweet corn kernels, veggies, and pepper.</p>
+        <h2>Ingredients</h2>
+        <ul>
+            <li>1 cup sweet corn</li>
+            <li>1/2 cup carrots & beans (finely chopped)</li>
+            <li>1 tbsp cornflour</li>
+            <li>3 cups water or veg stock</li>
+            <li>Salt & pepper</li>
+        </ul>
+        <h2>Preparation Steps</h2>
+        <ol>
+            <li>Boil corn and veggies in stock till soft.</li>
+            <li>Add cornflour slurry and simmer until thick.</li>
+            <li>Season with salt and pepper. Serve hot.</li>
+        </ol>
+        <div class="action-buttons">
+            <a href="https://www.indianhealthyrecipes.com/sweet-corn-soup-recipe/" class="btn btn-link" target="_blank">Learn More</a>
+            <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+        </div>
+    </div>
+    <div class="recipe-sidebar">
+        <div class="recipe-image" style="background-image: url('https://www.indianhealthyrecipes.com/wp-content/uploads/2021/03/sweet-corn-soup-recipe.jpg')"></div>
+        <div class="nutrition-info">
+            <h2>Nutrition (per bowl)</h2>
+            <p><strong>Calories:</strong> 110 kcal</p>
+            <p><strong>Carbs:</strong> 18g</p>
+            <p><strong>Protein:</strong> 3g</p>
+            <p><strong>Fat:</strong> 2g</p>
+        </div>
+    </div>
+</div>
+
+<!-- HOT & SOUR SOUP -->
+<div id="hot-sour-soup" class="recipe-container">
+    <div class="recipe-content">
+        <h1>Hot & Sour Soup</h1>
+        <p>Spicy and tangy Indo-Chinese soup made with vegetables and bold flavors.</p>
+        <h2>Ingredients</h2>
+        <ul>
+            <li>1 cup shredded cabbage, carrot</li>
+            <li>1/2 cup mushrooms</li>
+            <li>1 tsp soy sauce</li>
+            <li>1/2 tsp vinegar</li>
+            <li>1 tsp chili sauce</li>
+            <li>Cornflour slurry</li>
+        </ul>
+        <h2>Preparation Steps</h2>
+        <ol>
+            <li>Sauté vegetables on high heat for 2–3 mins.</li>
+            <li>Add sauces, water, and bring to boil.</li>
+            <li>Add cornflour slurry and cook till thick.</li>
+            <li>Garnish with spring onion greens.</li>
+        </ol>
+        <div class="action-buttons">
+            <a href="https://www.vegrecipesofindia.com/hot-and-sour-soup-recipe/" class="btn btn-link" target="_blank">Learn More</a>
+            <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+        </div>
+    </div>
+    <div class="recipe-sidebar">
+        <div class="recipe-image" style="background-image: url('https://www.vegrecipesofindia.com/wp-content/uploads/2019/12/hot-and-sour-soup-1.jpg')"></div>
+        <div class="nutrition-info">
+            <h2>Nutrition (per bowl)</h2>
+            <p><strong>Calories:</strong> 120 kcal</p>
+            <p><strong>Carbs:</strong> 15g</p>
+            <p><strong>Protein:</strong> 3g</p>
+            <p><strong>Fat:</strong> 4g</p>
+        </div>
+    </div>
+</div>
+
+<!-- MUSHROOM SOUP -->
+<div id="mushroom-soup" class="recipe-container">
+    <div class="recipe-content">
+        <h1>Cream of Mushroom Soup</h1>
+        <p>Smooth and creamy soup with earthy mushrooms and a touch of cream – perfect comfort food!</p>
+        <h2>Ingredients</h2>
+        <ul>
+            <li>2 cups mushrooms, sliced</li>
+            <li>1 small onion, chopped</li>
+            <li>1 tbsp flour</li>
+            <li>2 cups milk</li>
+            <li>Butter, salt & pepper</li>
+        </ul>
+        <h2>Preparation Steps</h2>
+        <ol>
+            <li>Sauté onions and mushrooms in butter.</li>
+            <li>Add flour and mix well. Pour in milk.</li>
+            <li>Simmer until creamy. Blend if desired.</li>
+        </ol>
+        <div class="action-buttons">
+            <a href="https://www.indianhealthyrecipes.com/mushroom-soup-recipe/" class="btn btn-link" target="_blank">Learn More</a>
+            <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+        </div>
+    </div>
+    <div class="recipe-sidebar">
+        <div class="recipe-image" style="background-image: url('https://www.indianhealthyrecipes.com/wp-content/uploads/2021/08/mushroom-soup-recipe.jpg')"></div>
+        <div class="nutrition-info">
+            <h2>Nutrition (per bowl)</h2>
+            <p><strong>Calories:</strong> 130 kcal</p>
+            <p><strong>Carbs:</strong> 10g</p>
+            <p><strong>Protein:</strong> 4g</p>
+            <p><strong>Fat:</strong> 7g</p>
+        </div>
+    </div>
+</div>
+
+<!-- RASAM -->
+<div id="rasam" class="recipe-container">
+    <div class="recipe-content">
+        <h1>Rasam</h1>
+        <p>A tangy South Indian soup made with tamarind, tomatoes, and spices – great for digestion.</p>
+        <h2>Ingredients</h2>
+        <ul>
+            <li>1 lemon-sized tamarind</li>
+            <li>2 tomatoes</li>
+            <li>1 tsp rasam powder</li>
+            <li>1/2 tsp mustard seeds</li>
+            <li>Curry leaves, coriander</li>
+        </ul>
+        <h2>Preparation Steps</h2>
+        <ol>
+            <li>Extract tamarind juice and boil with tomatoes and rasam powder.</li>
+            <li>Temper mustard seeds, curry leaves in ghee and add to rasam.</li>
+            <li>Garnish with fresh coriander.</li>
+        </ol>
+        <div class="action-buttons">
+            <a href="https://www.vegrecipesofindia.com/rasam-recipe/" class="btn btn-link" target="_blank">Learn More</a>
+            <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+        </div>
+    </div>
+    <div class="recipe-sidebar">
+        <div class="recipe-image" style="background-image: url('https://www.vegrecipesofindia.com/wp-content/uploads/2021/01/rasam-recipe-1.jpg')"></div>
+        <div class="nutrition-info">
+            <h2>Nutrition (per bowl)</h2>
+            <p><strong>Calories:</strong> 70 kcal</p>
+            <p><strong>Carbs:</strong> 10g</p>
+            <p><strong>Protein:</strong> 2g</p>
+            <p><strong>Fat:</strong> 2g</p>
+        </div>
+    </div>
+</div>

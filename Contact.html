@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Us - Recipe Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .contact-form {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      font-weight: bold;
+      color: #333;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .form-group textarea {
+      height: 150px;
+      resize: vertical;
+    }
+    button {
+      background-color: hsl(217, 73%, 46%);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: hsl(217, 73%, 40%);
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #888;
+    }
+    .success-message {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Contact Us</h1>
+    <div class="contact-form">
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="username">Your Username:</label>
+          <input type="text" id="username" name="username" required placeholder="Enter your username">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Your Gmail:</label>
+          <input type="email" id="email" name="email" required pattern=".+@gmail\.com" placeholder="example@gmail.com">
+        </div>
+
+        <div class="form-group">
+          <label for="message">Your Message:</label>
+          <textarea id="message" name="message" required placeholder="Enter your message"></textarea>
+        </div>
+
+        <button type="submit">Send Message</button>
+        <div class="success-message" id="successMessage"></div>
+      </form>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2025 Recipe Website | All rights reserved</p>
+    </div>
+  </div>
+
+  <script>
+    // Prefill username and email if user is logged in
+    window.addEventListener("DOMContentLoaded", () => {
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      if (loggedInUser) {
+        document.getElementById("username").value = loggedInUser.username;
+        document.getElementById("email").value = loggedInUser.email;
+      }
+    });
+  
+    // Handle form submit
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+  
+      if (!username || !email || !message) {
+        alert("Please fill out all fields.");
+        return;
+      }
+  
+      if (!email.endsWith("@gmail.com")) {
+        alert("Please enter a valid Gmail address.");
+        return;
+      }
+  
+      // Store messages
+      let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+      messages.push({ username, email, message, date: new Date().toISOString() });
+      localStorage.setItem("contactMessages", JSON.stringify(messages));
+  
+      // Show success message
+      document.getElementById("successMessage").textContent = "Thank you! Your message has been sent.";
+  
+      // Reset only message field
+      document.getElementById("message").value = "";
+    });
+  </script>
+  
+
+</body>
+</html>

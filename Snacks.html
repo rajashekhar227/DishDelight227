@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>South Indian Breakfast Recipes</title>
+<style>
+        /* Base Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        /* Recipe Grid */
+        .recipe-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .recipe-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipe-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.recipe-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.recipe-card h2 {
+    font-size: 30px;
+    color: #110909;
+    margin: 10px 0;
+}
+        /* Recipe Container */
+        .recipe-container {
+            display: none;
+            flex-wrap: wrap;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .recipe-container.active {
+            display: flex;
+        }
+        
+        .recipe-content {
+            flex: 2;
+            min-width: 300px;
+            padding: 25px;
+        }
+        
+        .recipe-sidebar {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .recipe-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .nutrition-info {
+            background-color: #f1f1f1;
+            padding: 15px;
+            flex-grow: 1;
+        }
+        
+        .recipe-container h1 {
+            color: #d35400;
+            margin-top: 0;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+            text-align: left;
+        }
+        
+        .recipe-container h2 {
+            color: #e67e22;
+            margin-top: 25px;
+            font-size: 1.5em;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-link {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-link:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-favorite {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-favorite:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-favorite.favorited {
+            background-color: #2ecc71;
+        }
+        
+        /* Bhel Puri Specific Styles */
+        .bhel-puri .recipe-image {
+            height: 300px;
+            border-bottom: 3px solid #f1c40f;
+        }
+        
+        .bhel-puri .nutrition-info {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-left: 1px solid #eee;
+        }
+        
+        .bhel-puri h1 {
+            color: #e67e22;
+            font-size: 2.2em;
+        }
+        
+        .bhel-puri h2 {
+            color: #d35400;
+        }
+        
+        .bhel-puri .description {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .bhel-puri ul, .bhel-puri ol {
+            padding-left: 25px;
+        }
+        
+        .bhel-puri li {
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+        
+        .bhel-puri .btn {
+            padding: 12px 25px;
+            font-size: 1em;
+        }
+        
+        .bhel-puri .btn-link:hover, .bhel-puri .btn-favorite:hover {
+            transform: translateY(-2px);
+        }
+        
+        .bhel-puri .tips-section {
+            background-color: #f8f4e5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 3px solid #f1c40f;
+        }
+        
+        .bhel-puri .serving-suggestions {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+        
+        /* Back Button */
+        .back-button {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            width: fit-content;
+        }
+        
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+        
+        @media (max-width: 768px) {
+            .recipe-container {
+                flex-direction: column;
+            }
+            
+            .recipe-image {
+                order: -1;
+                height: 250px;
+            }
+            
+            .recipe-sidebar {
+                flex-direction: column;
+            }
+            
+            .nutrition-info {
+                border-left: none;
+                border-top: 1px solid #eee;
+            }
+            
+            .bhel-puri .recipe-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="recipe-grid-view">
+<h1>Choose Your Snack</h1>
+<div class="recipe-grid">
+<div class="recipe-card" onclick="showRecipe('samosa')">
+<img alt="Samosa" height="200" src="https://imgs.search.brave.com/z5xl-bloCmLb0PgKnJv6iUt1ObkZ0DLRfiFYLbwBfIY/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEwLzY1LzQ5LzY5/LzM2MF9GXzEwNjU0/OTY5MTNfb1JyeE5O/aEhGekFoQTNWQ3Ns/eGpWTnZVdFFTbm9w/NXMuanBn" width="300"/>
+<h2>Samosa</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('kachori')">
+<img alt="Kachori" height="200" src="https://imgs.search.brave.com/8dAr2VBITwdJaxg30W2tBj_u4qf_i3h0ufgtyHs8_t8/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/amV5YXNocmlza2l0/Y2hlbi5jb20vd3At/Y29udGVudC91cGxv/YWRzLzIwMjIvMDQv/MjUxMzE1NTc3OTJf/ZTJiODU0ZjE1YV96/LmpwZw" width="300"/>
+<h2>Kachori</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('pakora')">
+<img alt="Pakora" height="200" src="https://imgs.search.brave.com/nb661n31VyKlsPPLmjjNcVyJriqRiaqp_bMHyK0nClg/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdWto/aXMuY29tL2FwcC91/cGxvYWRzLzIwMTMv/MDMvaW1hZ2U3LTEw/MjR4Njg0LmpwZw" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Pakora</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('dhokla')">
+<img alt="Dhokla" height="200" src="https://t4.ftcdn.net/jpg/10/41/99/53/360_F_1041995329_Y948A29Hru2TXn8JgkWMwJmIVauyQ9jq.jpg" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Dhokla</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('sev-puri')">
+<img alt="Sev Puri" height="200" src="https://pipingpotcurry.com/wp-content/uploads/2020/01/Sev-Batata-Puri-chaat-recipe-Piping-Pot-Curry.jpg" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Sev Puri</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('bhel-puri')">
+<img alt="Bhel Puri" height="200" src="https://imgs.search.brave.com/cVdRNjqMTj_pnkmKmgQIGJ9dsif9CQl_2PLdavqsnIQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQz/NzI2NjgwMi9waG90/by9iaGVsLXB1cmkt/aW5kaWFuLXN0cmVl/dC1mb29kLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1nWjg3/NzFGd3pQMHV6Smp2/bG44MWs0YW9Bd1E4/Q1BVeW81Z0xMSGVm/TDJvPQ" width="300"/>
+<h2>Bhel Puri</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('aloo-tikki')">
+<img alt="Aloo tikki" height="200" src="https://havelirestaurant.com.au/wp-content/uploads/2024/10/aloo.jpg" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Aloo Tikki</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('dabeli')">
+<img alt="Dabeli" height="200" src="https://imgs.search.brave.com/nTDJnTKrCUEqcXn8qx2B6JvzwVFglTa9MAMQiRcPzBA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9kMmo2/ZGJxMGV1eDBiZy5j/bG91ZGZyb250Lm5l/dC9pbWFnZXMvNDQw/Njc1NzUvMTk0OTI0/ODA1MC5qcGc" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Dabeli</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('kathi-roll')">
+<img alt="Kathi Roll" height="200" src="https://static.toiimg.com/photo/81590116.cms" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Kathi Roll</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('paneer-roll')">
+<img alt="Paneer Roll" height="200" src="https://imgs.search.brave.com/4CcI5LkCQjszSoAaihRuumFWWqPh5IMiAhF2hMsqI6U/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzEwLzkzLzAzLzU0/LzM2MF9GXzEwOTMw/MzU0MTZfVjdRNjVi/d0RIRjJabkpqYkRY/SDdSdHJWZW5ncnJG/TW0uanBn" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Paneer Roll</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('pav-bhaji')">
+<img alt="Pav Bhaji" height="200" src="https://rumkisgoldenspoon.com/wp-content/uploads/2021/10/Pav-bhaji-recipe.jpg" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Pav Bhaji</h2>
+</div>
+<div class="recipe-card" onclick="showRecipe('chaat-mix')">
+<img alt="chaat-mix" height="200" src="https://imgs.search.brave.com/C2shM36upIt6CC9Hvwt-TIU9Z-GZXEDULGMNXoBeZqQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzQ1Lzg4Lzc2/LzM2MF9GXzY0NTg4/NzY0N19oc3FPeFk3/WFFkcXdVb09Sdjlk/ZGllUnU5Nzd5TEpO/Yi5qcGc" style="object-fit: cover; border-radius: 4px;" width="300"/>
+<h2>Chaat Mix</h2>
+</div>
+</div>
+</div>
+<div class="recipe-container" id="chaat-mix">
+<div class="recipe-content">
+<h1>Chaat Mix</h1>
+<p>A healthy, spicy Indian-style oats dish made with veggies, perfect for quick breakfasts and full of fiber.</p>
+<h2>Ingredients</h2>
+<ul><li>1 cup boiled chickpeas</li>
+<li>1/2 cup chopped onions</li>
+<li>1/2 cup chopped tomatoes</li>
+<li>1/2 cup boiled potatoes</li>
+<li>2 tbsp tamarind chutney</li>
+<li>2 tbsp green chutney</li>
+<li>1 tsp chaat masala</li>
+<li>1/2 tsp cumin powder</li>
+<li>Salt to taste</li>
+<li>Sev and coriander leaves for garnish</li></ul>
+<h2>Preparation Steps</h2>
+<ol><li>Mix chickpeas, onions, tomatoes, and potatoes in a bowl.</li>
+<li>Add chutneys, chaat masala, cumin powder, and salt. Mix well.</li>
+<li>Garnish with sev and chopped coriander before serving.</li></ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=SwEI3pN2zVo" target="_blank">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://kitchenmai.com/wp-content/uploads/2020/05/chole_chaat_blog.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition (per bowl)</h2>
+<p><strong>Calories:</strong> 180 kcal</p>
+<p><strong>Carbs:</strong> 25g</p>
+<p><strong>Protein:</strong> 5g</p>
+<p><strong>Fiber:</strong> 4g</p>
+</div>
+</div>
+</div>
+<div class="recipe-container" id="pav-bhaji">
+<div class="recipe-content">
+<h1>Fluffy Pav Bhaji</h1>
+<p>These fluffy pav-bhaji are soft, golden, and perfect with syrup, butter, or berries — a breakfast classic loved worldwide.</p>
+<h2>Ingredients</h2>
+<ul><li>2 cups mixed vegetables (potatoes, cauliflower, peas, carrots)</li>
+<li>1 onion (finely chopped)</li>
+<li>1 tomato (chopped)</li>
+<li>1 capsicum (chopped)</li>
+<li>2 tbsp pav bhaji masala</li>
+<li>1 tsp red chili powder</li>
+<li>2 tbsp butter</li>
+<li>Salt to taste</li>
+<li>Lemon wedges and coriander leaves for garnish</li>
+<li>4 pav buns</li></ul>
+<h2>Preparation Steps</h2>
+<ol><li>Boil and mash all vegetables.</li>
+<li>Sauté onions, capsicum, and tomatoes in butter until soft.</li>
+<li>Add pav bhaji masala, red chili powder, and salt.</li>
+<li>Mix in mashed vegetables and simmer. Add water to adjust consistency.</li>
+<li>Toast pav buns with butter and serve with bhaji garnished with lemon and coriander.</li></ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=qMAYG-soxhw" target="_blank">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://rumkisgoldenspoon.com/wp-content/uploads/2021/10/Pav-bhaji-recipe.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition (2 pav-bhaji)</h2>
+<p><strong>Calories:</strong> 260 kcal</p>
+<p><strong>Carbs:</strong> 35g</p>
+<p><strong>Protein:</strong> 6g</p>
+<p><strong>Fat:</strong> 10g</p>
+</div>
+</div>
+</div>
+<div class="recipe-container" id="kathi-roll">
+<div class="recipe-content">
+<h1>Classic Kathi Roll</h1>
+<p>A delightful breakfast made by soaking bread in an egg mixture and frying to golden perfection. Best served with maple syrup or fruits.</p>
+<h2>Ingredients</h2>
+<ul><li>2 parathas or rotis</li>
+<li>1 cup cooked chicken or paneer</li>
+<li>1 onion (sliced)</li>
+<li>1/2 cup capsicum (sliced)</li>
+<li>1 tbsp oil</li>
+<li>1/2 tsp turmeric</li>
+<li>1 tsp chaat masala</li>
+<li>1/2 tsp red chili powder</li>
+<li>Coriander chutney and mayonnaise (optional)</li>
+<li>Salt to taste</li></ul>
+<h2>Preparation Steps</h2>
+<ol><li>Heat oil in pan. Add onions and capsicum. Sauté for 2-3 minutes.</li>
+<li>Add chicken/paneer, spices, and salt. Cook for 5-6 minutes.</li>
+<li>Warm parathas, spread chutney and mayo (optional).</li>
+<li>Place filling, roll up tightly, and serve hot.</li></ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=bWrTQ1imKTg" target="_blank">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://static.toiimg.com/photo/81590116.cms'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition (2 slices)</h2>
+<p><strong>Calories:</strong> 280 kcal</p>
+<p><strong>Carbs:</strong> 25g</p>
+<p><strong>Protein:</strong> 9g</p>
+<p><strong>Fat:</strong> 14g</p>
+</div>
+</div>
+</div>
+<div class="recipe-container" id="paneer-roll">
+<div class="recipe-content">
+<h1>Spicy Paneer Roll</h1>
+<p>A flavorful Indian-style scrambled egg dish made with onions, tomatoes, chilies, and aromatic spices — quick and satisfying!</p>
+<h2>Ingredients</h2>
+<ul><li>200g paneer (cubed)</li>
+<li>1 onion, 1 tomato (chopped)</li>
+<li>1 tsp ginger-garlic paste</li>
+<li>1/2 tsp turmeric, 1 tsp garam masala</li>
+<li>1/2 tsp chili powder</li>
+<li>Salt, oil, coriander leaves</li>
+<li>2 cooked parathas or rotis</li></ul>
+<h2>Preparation Steps</h2>
+<ol><li>Sauté onions, tomatoes, ginger-garlic paste in oil.</li>
+<li>Add spices and paneer. Cook until coated and slightly browned.</li>
+<li>Place mixture in warm parathas and roll them up.</li>
+<li>Garnish with coriander. Serve hot.</li></ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=bWrTQ1imKTg" target="_blank">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://thumbs.dreamstime.com/b/selective-focus-indian-food-paneer-roll-kathi-ai-generated-content-design-background-instagram-facebook-wall-painting-324276989.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition (per serving)</h2>
+<p><strong>Calories:</strong> 220 kcal</p>
+<p><strong>Protein:</strong> 12g</p>
+<p><strong>Fat:</strong> 17g</p>
+<p><strong>Carbs:</strong> 4g</p>
+</div>
+</div>
+</div>
+<!-- Samosa Recipe -->
+<div class="recipe-container" id="samosa">
+<div class="recipe-content">
+<h1>Traditional Samosa Recipe</h1>
+<p>Samosa is a traditional South Indian steamed rice cake that's healthy, delicious, and perfect for breakfast or as a snack. These soft and fluffy cakes are naturally gluten-free and vegan.</p>
+<h2>Ingredients</h2>
+<ul>
+<li>2 cups samosa rice (or regular parboiled rice)</li>
+<li>1 cup urad dal (split black lentils)</li>
+<li>1/2 teaspoon fenugreek seeds</li>
+<li>1 teaspoon salt (or to taste)</li>
+<li>Water (for soaking and grinding)</li>
+<li>Oil or ghee (for greasing the samosa plates)</li>
+</ul>
+<h2>Preparation Steps</h2>
+<ol>
+<li><strong>Soaking:</strong> Wash rice, urad dal, and fenugreek seeds separately. Soak rice and fenugreek together, and urad dal separately for 4-6 hours.</li>
+<li><strong>Grinding:</strong> Grind urad dal first to a smooth, fluffy consistency. Then grind rice to a slightly coarse paste. Mix both batters together with salt.</li>
+<li><strong>Fermentation:</strong> Allow the batter to ferment in a warm place for 8-12 hours or overnight. The batter will almost double in volume.</li>
+<li><strong>Steaming:</strong> Grease samosa plates, pour batter into each mold, and steam for 10-12 minutes until a toothpick inserted comes out clean.</li>
+<li><strong>Serving:</strong> Serve hot with coconut chutney, sambar, or your favorite accompaniment.</li>
+</ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=cN7paRwBbrY">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://www.cubesnjuliennes.com/wp-content/uploads/2020/08/Best-Mutton-Keema-Samosa-Recipe-1-500x500.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition Information (per serving - 2 idlies)</h2>
+<p><strong>Calories:</strong> 120 kcal</p>
+<p><strong>Carbohydrates:</strong> 24g</p>
+<p><strong>Protein:</strong> 4g</p>
+<p><strong>Fat:</strong> 0.5g</p>
+<p><strong>Fiber:</strong> 2g</p>
+</div>
+</div>
+</div>
+<div class="recipe-container" id="aloo-tikki">
+<div class="recipe-content">
+<h1>Aloo Tikki Recipe</h1>
+<p>Aloo Tikki is a popular North Indian breakfast of flatbread stuffed with a spiced potato filling, served hot with butter, curd, or pickle.</p>
+<h2>Ingredients</h2>
+<ul>
+<li>2 cups whole wheat flour</li>
+<li>3 medium potatoes (boiled &amp; mashed)</li>
+<li>1 tsp cumin seeds</li>
+<li>1-2 green chilies, chopped</li>
+<li>1/2 tsp garam masala</li>
+<li>Salt, coriander, oil/ghee</li>
+</ul>
+<h2>Preparation Steps</h2>
+<ol>
+<li>Prepare dough with flour, water, and salt. Let it rest.</li>
+<li>Mix mashed potatoes with spices and herbs.</li>
+<li>Roll dough balls, fill with stuffing, seal and roll again.</li>
+<li>Cook on tawa with ghee until golden on both sides.</li>
+</ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=BrYPnqA7eIg" target="_blank">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://havelirestaurant.com.au/wp-content/uploads/2024/10/aloo.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition (per paratha)</h2>
+<p><strong>Calories:</strong> 210 kcal</p>
+<p><strong>Carbs:</strong> 28g</p>
+<p><strong>Protein:</strong> 5g</p>
+<p><strong>Fat:</strong> 8g</p>
+</div>
+</div>
+</div>
+<div class="recipe-container" id="dabeli">
+<div class="recipe-content">
+<h1>Dabeli</h1>
+<p>A modern, nutritious breakfast option featuring creamy mashed avocado on toasted bread, often topped with eggs or seasonings.</p>
+<h2>Ingredients</h2>
+<ul>
+<li>2 slices whole grain bread</li>
+<li>1 ripe avocado</li>
+<li>Salt, pepper, lemon juice</li>
+<li>Optional: poached egg, chili flakes</li>
+</ul>
+<h2>Preparation Steps</h2>
+<ol>
+<li>Toast the bread until golden.</li>
+<li>Mash avocado with lemon juice, salt, pepper.</li>
+<li>Spread on toast and add desired toppings.</li>
+</ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=tKqrVyX9TJk" target="_blank">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://recipesblob.oetker.in/assets/9447029b80054ee49f3ac21841884874/1272x764/dabeli.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition (per serving)</h2>
+<p><strong>Calories:</strong> 250 kcal</p>
+<p><strong>Carbs:</strong> 22g</p>
+<p><strong>Protein:</strong> 6g</p>
+<p><strong>Fat:</strong> 16g</p>
+</div>
+</div>
+</div>
+<!-- Kachori Recipe -->
+<div class="recipe-container" id="kachori">
+<div class="recipe-content">
+<h1>Crispy Kachori Recipe</h1>
+<p>Kachori is a thin, crispy South Indian crepe made from fermented rice and lentil batter. It's a versatile dish that can be served plain or stuffed with various fillings.</p>
+<h2>Ingredients</h2>
+<ul>
+<li>2 cups rice (regular or parboiled)</li>
+<li>1/2 cup urad dal (split black lentils)</li>
+<li>1/4 teaspoon fenugreek seeds</li>
+<li>1 teaspoon salt</li>
+<li>Water (for soaking and grinding)</li>
+<li>Oil or ghee (for cooking)</li>
+</ul>
+<h2>Preparation Steps</h2>
+<ol>
+<li><strong>Soaking:</strong> Soak rice and dal separately with fenugreek seeds for 4-6 hours.</li>
+<li><strong>Grinding:</strong> Grind dal first to smooth consistency, then grind rice coarsely. Mix together with salt.</li>
+<li><strong>Fermentation:</strong> Let batter ferment overnight (8-12 hours) until bubbly and doubled in volume.</li>
+<li><strong>Cooking:</strong> Heat a griddle, pour ladle of batter, spread in circular motion to make thin crepe.</li>
+<li><strong>Frying:</strong> Drizzle oil/ghee, cook until golden and crisp. Fold and serve hot with chutney and sambar.</li>
+</ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=-cTLbaRI4RU">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://www.ifbappliances.com/media/catalog/product/cache/cbfae812fa3f53c2f8e749eb3dc52e2d/m/o/moong_dal_kachori_desktop_main_image_519x620.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition Information (per serving - 1 large kachori)</h2>
+<p><strong>Calories:</strong> 150 kcal</p>
+<p><strong>Carbohydrates:</strong> 28g</p>
+<p><strong>Protein:</strong> 5g</p>
+<p><strong>Fat:</strong> 2g</p>
+<p><strong>Fiber:</strong> 2g</p>
+</div>
+</div>
+</div>
+<!-- Pakora Recipe -->
+<div class="recipe-container" id="pakora">
+<div class="recipe-content">
+<h1>Crispy Medu Pakora Recipe</h1>
+<p>Medu Pakora is a popular South Indian savory donut made from urad dal. These crispy, fluffy fritters are perfect for breakfast or as a snack with coconut chutney and sambar.</p>
+<h2>Ingredients</h2>
+<ul>
+<li>1 cup urad dal (split black lentils)</li>
+<li>1-2 green chilies (finely chopped)</li>
+<li>1 inch ginger (grated)</li>
+<li>10-12 curry leaves (chopped)</li>
+<li>1/4 teaspoon asafoetida (hing)</li>
+<li>1/2 teaspoon cumin seeds</li>
+<li>Salt to taste</li>
+<li>Oil for deep frying</li>
+</ul>
+<h2>Preparation Steps</h2>
+<ol>
+<li><strong>Soaking:</strong> Soak urad dal for 4-5 hours. Drain completely.</li>
+<li><strong>Grinding:</strong> Grind to smooth, fluffy batter with minimal water.</li>
+<li><strong>Mixing:</strong> Add chilies, ginger, curry leaves, hing, cumin and salt. Whip well.</li>
+<li><strong>Shaping:</strong> Wet hands, take batter, make hole in center to form donut shape.</li>
+<li><strong>Frying:</strong> Deep fry in medium-hot oil until golden brown and crisp.</li>
+<li><strong>Serving:</strong> Serve hot with coconut chutney and sambar.</li>
+</ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=0Y-YZS_Ecdo">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://resize.indiatvnews.com/en/resize/gallery/840_-/2025/01/befunky-collage-2025-01-05t130941-1736062746.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition Information (per serving - 2 pakoras)</h2>
+<p><strong>Calories:</strong> 180 kcal</p>
+<p><strong>Carbohydrates:</strong> 15g</p>
+<p><strong>Protein:</strong> 8g</p>
+<p><strong>Fat:</strong> 10g</p>
+<p><strong>Fiber:</strong> 3g</p>
+</div>
+</div>
+</div>
+<!-- Dhokla Recipe -->
+<div class="recipe-container" id="dhokla">
+<div class="recipe-content">
+<h1>Fluffy Dhokla Recipe</h1>
+<p>Dhokla is a deep-fried Indian bread made from whole wheat flour. These golden, puffy breads are perfect for breakfast or special occasions, often served with potato curry or chana masala.</p>
+<h2>Ingredients</h2>
+<ul>
+<li>2 cups whole wheat flour (atta)</li>
+<li>1 tablespoon semolina (sooji/rava) - optional</li>
+<li>1/2 teaspoon salt</li>
+<li>1 tablespoon oil</li>
+<li>Water (as needed to make dough)</li>
+<li>Oil for deep frying</li>
+</ul>
+<h2>Preparation Steps</h2>
+<ol>
+<li><strong>Dough:</strong> Mix flour, semolina, salt and 1 tbsp oil. Add water gradually to make stiff dough.</li>
+<li><strong>Kneading:</strong> Knead well for 5-7 minutes until smooth. Cover and rest for 30 minutes.</li>
+<li><strong>Shaping:</strong> Divide dough into small balls. Roll each into 3-4 inch circles.</li>
+<li><strong>Frying:</strong> Heat oil, gently slide dhokla in. Press with slotted spoon to puff up.</li>
+<li><strong>Draining:</strong> Flip once, fry till golden. Drain on paper towels.</li>
+<li><strong>Serving:</strong> Serve hot with potato curry, chana masala or pickle.</li>
+</ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=ONrkIBvLqhY">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://t4.ftcdn.net/jpg/10/41/99/53/360_F_1041995329_Y948A29Hru2TXn8JgkWMwJmIVauyQ9jq.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition Information (per serving - 2 dhoklas)</h2>
+<p><strong>Calories:</strong> 200 kcal</p>
+<p><strong>Carbohydrates:</strong> 30g</p>
+<p><strong>Protein:</strong> 5g</p>
+<p><strong>Fat:</strong> 7g</p>
+<p><strong>Fiber:</strong> 3g</p>
+</div>
+</div>
+</div>
+<!-- Sev Puri Recipe -->
+<div class="recipe-container" id="sev-puri">
+<div class="recipe-content">
+<h1>Sev Puri Recipe</h1>
+<p>A comforting South Indian rice-lentil porridge tempered with ghee, cumin, and black pepper, traditionally served during Makara Sankranti.</p>
+<h2>Ingredients</h2>
+<ul>
+<li>1 cup raw rice</li>
+<li>1/2 cup split yellow moong dal</li>
+<li>4 cups water</li>
+<li>2 tbsp ghee</li>
+<li>1 tsp cumin seeds</li>
+<li>1 tsp black peppercorns</li>
+<li>1/2 tsp asafoetida</li>
+<li>10-12 cashews (optional)</li>
+<li>1 inch ginger (finely chopped)</li>
+<li>10 curry leaves</li>
+<li>Salt to taste</li>
+</ul>
+<h2>Preparation Steps</h2>
+<ol>
+<li>Dry roast moong dal until fragrant. Wash with rice and drain.</li>
+<li>Pressure cook with water for 5-6 whistles until mushy.</li>
+<li>Mash the mixture slightly. Add salt and more water if needed.</li>
+<li>Heat ghee in pan. Temper with cumin, pepper, cashews, ginger, curry leaves and asafoetida.</li>
+<li>Pour tempering over sev-puri. Mix well and serve hot with sambar or coconut chutney.</li>
+</ol>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=iJKiUvTS_mQ">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://pipingpotcurry.com/wp-content/uploads/2020/01/Sev-Batata-Puri-chaat-recipe-Piping-Pot-Curry.jpg'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition (per serving)</h2>
+<p><strong>Calories:</strong> 250 kcal</p>
+<p><strong>Carbs:</strong> 40g</p>
+<p><strong>Protein:</strong> 8g</p>
+<p><strong>Fat:</strong> 6g</p>
+<p><strong>Fiber:</strong> 3g</p>
+</div>
+</div>
+</div>
+<!-- Bhel Puri Recipe -->
+<div class="recipe-container bhel-puri" id="bhel-puri">
+<div class="recipe-content">
+<h1>Bhel Puri Recipe</h1>
+<p class="description">Bhel Puri is a classic South Indian breakfast dish made with semolina (rava), seasoned with mustard seeds, curry leaves, and vegetables. This wholesome dish is quick to prepare and packed with flavors.</p>
+<h2>Ingredients</h2>
+<ul>
+<li><strong>1 cup</strong> fine semolina (rava/sooji)</li>
+<li><strong>2 tbsp</strong> ghee or oil</li>
+<li><strong>1 tsp</strong> mustard seeds</li>
+<li><strong>1 tsp</strong> urad dal (split black gram)</li>
+<li><strong>1 tsp</strong> chana dal (split chickpeas)</li>
+<li><strong>1-2</strong> green chilies, slit lengthwise</li>
+<li><strong>1 inch</strong> ginger, finely chopped</li>
+<li><strong>10-12</strong> fresh curry leaves</li>
+<li><strong>1</strong> medium onion, finely chopped</li>
+<li><strong>1/4 cup</strong> mixed vegetables (carrots, peas, beans - optional)</li>
+<li><strong>2 cups</strong> water</li>
+<li><strong>1/2 tsp</strong> turmeric powder</li>
+<li><strong>1 tbsp</strong> lemon juice</li>
+<li><strong>2 tbsp</strong> chopped coriander leaves</li>
+<li>Salt to taste</li>
+</ul>
+<h2>Preparation Steps</h2>
+<ol>
+<li><strong>Dry roast the semolina:</strong> In a pan, dry roast the semolina on medium heat for 4-5 minutes until it turns aromatic and light golden. Transfer to a plate and set aside.</li>
+<li><strong>Prepare the tempering:</strong> Heat ghee/oil in the same pan. Add mustard seeds and let them splutter. Then add urad dal and chana dal, sauté until golden.</li>
+<li><strong>Add aromatics:</strong> Add green chilies, ginger, and curry leaves. Sauté for 30 seconds until fragrant.</li>
+<li><strong>Cook vegetables:</strong> Add chopped onions and sauté until translucent. If using vegetables, add them now and cook for 2 minutes.</li>
+<li><strong>Boil water:</strong> Add 2 cups of water, turmeric powder, and salt. Bring to a rolling boil.</li>
+<li><strong>Add semolina:</strong> Reduce heat to low. Slowly add the roasted semolina while stirring continuously to prevent lumps.</li>
+<li><strong>Cook covered:</strong> Cover and cook on low heat for 3-4 minutes until the water is absorbed and bhel-puri is fluffy.</li>
+<li><strong>Finish with garnishes:</strong> Turn off heat. Add lemon juice and chopped coriander. Mix well.</li>
+<li><strong>Serve hot:</strong> Fluff with a fork and serve immediately with coconut chutney or pickle.</li>
+</ol>
+<div class="tips-section">
+<h3>Chef's Tips</h3>
+<ul>
+<li>For richer flavor, use ghee instead of oil</li>
+<li>Roasting semolina well is key to prevent stickiness</li>
+<li>Add water carefully - too much makes it mushy, too little makes it dry</li>
+<li>For variation, add cashews or peanuts during tempering</li>
+</ul>
+</div>
+<p class="serving-suggestions">Serving suggestion: Pair with coconut chutney and filter coffee for authentic South Indian breakfast experience.</p>
+<div class="action-buttons">
+<a class="btn btn-link" href="https://www.youtube.com/watch?v=c-hjrGHQyAs">Recipe Video</a>
+<button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+</div>
+</div>
+<div class="recipe-sidebar">
+<div class="recipe-image" style="background-image: url('https://cdn.zeptonow.com/production///tr:w-600,ar-100-100,pr-true,f-auto,q-80/web/recipes/bhel-puri.png'); height: 200px; background-size: cover; background-position: center"></div>
+<div class="nutrition-info">
+<h2>Nutrition (per Serving)</h2>
+<p><strong>Serving Size:</strong> 1 bowl (approx. 200g)</p>
+<p><strong>Calories:</strong> 250 kcal</p>
+<p><strong>Carbohydrates:</strong> 40g</p>
+<p><strong>Protein:</strong> 6g</p>
+<p><strong>Fat:</strong> 7g</p>
+<p><strong>Fiber:</strong> 3g</p>
+<p><strong>Sugar:</strong> 2g</p>
+<p><strong>Sodium:</strong> 300mg</p>
+</div>
+</div>
+</div>
+<script>
+    // Show the selected recipe and hide others
+    function showRecipe(recipeId) {
+        document.getElementById('recipe-grid-view').style.display = 'none';
+        document.querySelectorAll('.recipe-container').forEach(container => {
+            container.classList.remove('active');
+        });
+        document.getElementById(recipeId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    // Toggle favorite and store in localStorage
+    function toggleFavorite(button) {
+        const container = button.closest('.recipe-container');
+        const id = container.id;
+        const title = container.querySelector('h1')?.innerText || "Recipe";
+        const description = container.querySelector('p')?.innerText || "";
+        const imageStyle = container.querySelector('.recipe-image')?.style.backgroundImage;
+        const image = imageStyle ? imageStyle.slice(5, -2) : "";
+        const link = `#${id}`;
+
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        const index = favorites.findIndex(fav => fav.id === id);
+
+        if (index === -1) {
+            favorites.push({ id, title, description, image, link });
+            button.textContent = '❤️ Recipe Saved!';
+            button.classList.add('favorited');
+        } else {
+            favorites.splice(index, 1);
+            button.textContent = '❤️ Add to Favorites';
+            button.classList.remove('favorited');
+        }
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    // Back to grid view
+    function backToGrid() {
+        document.getElementById('recipe-grid-view').style.display = 'block';
+        document.querySelectorAll('.recipe-container').forEach(container => {
+            container.classList.remove('active');
+        });
+        window.scrollTo(0, 0);
+    }
+
+    // Add back buttons to all recipe containers
+    
+    window.addEventListener('load', function () {
+const hash = window.location.hash.substring(1); // remove the #
+if (hash) {
+    showRecipe(hash);
+}
+});
+</script>
+</body>
+</html>

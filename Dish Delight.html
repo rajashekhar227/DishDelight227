@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dish Delight</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 20px;
+      background-color:#B5A8D5;
+      width: 100%; 
+      box-sizing: border-box; 
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; 
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .logo {
+      font-weight: bolder;
+      font-size: 25px;
+      color: hsl(342, 67%, 54%);
+    }
+    .logo a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 25px;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      text-decoration:#45a049;
+    }
+
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #806666;
+      min-width: 160px;
+      z-index: 1;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content a {
+      color: rgb(214, 220, 233);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    .dropdown-content a:hover {
+      background-color:hsl(191, 61%, 39%);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Search Bar Styles */
+    .search-container {
+      position: relative;
+      margin-left: 15px;
+    }
+
+    .search-input {
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      width: 180px;
+      font-size: 14px;
+      outline: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .search-input:focus {
+      width: 220px;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .search-button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Login button styles */
+    #login-link a {
+      background-color: #4CAF50;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    #login-link a:hover {
+      background-color: #45a049;
+      text-decoration: none;
+    }
+
+    /* Hero Section */
+    .hero {
+      background-image: url('./extradown1.jpg');
+      background-size:97%;
+      background-position: top;
+      color: hwb(152 20% 66%);
+      text-align: center;
+      padding: 105px 20px;
+    }
+
+    .hero h1 {
+      color:hsl(252, 48%, 53%);
+      text-align: center;
+      font-size: 48px;
+      margin: 0;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-top: 10px;
+      color: #b7874a;
+    }
+
+    /* Recipe Categories */
+    .categories {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+      gap: 30px;
+    }
+
+    .category {
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      width: 250px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .category img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .category h3 {
+      margin-top: 10px;
+      font-size: 22px;
+    }
+
+    /* Featured Recipes */
+    .featured-recipes {
+      background-color: #f9f9f9;
+      padding: 20px 20px;
+      text-align: center;
+    }
+
+    .featured-recipes h2 {
+      margin-bottom: 30px;
+    }
+
+    .recipe-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .recipe-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .recipe-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .recipe-card h3 {
+      margin-top: 10px;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Search results container */
+    #search-results-container {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Login/logout functionality
+        const user = localStorage.getItem("loggedInUser");
+        const loginLink = document.getElementById("login-link");
+        
+        if (user) {
+            const logoutDiv = document.createElement("div");
+            logoutDiv.style.cssText = `
+                display: inline-block;
+                background-color: #f44336;
+                color: white;
+                padding: 8px 15px;
+                border-radius: 5px;
+                font-weight: bold;
+                font-size: 14px;
+                cursor: pointer;
+            `;
+            logoutDiv.textContent = "Logout";
+            logoutDiv.onclick = function () {
+                localStorage.removeItem("loggedInUser");
+                window.location.reload();
+            };
+            loginLink.replaceWith(logoutDiv);
+        }
+
+        // Recipe search database (can be expanded)
+        window.recipeDatabase = [
+    {
+        title: "Idly",
+        description: "Traditional South Indian steamed rice cake that's healthy and delicious",
+        category: "Breakfast",
+        url: "BreakFastin1.html#idly",
+        keywords: ["idly", "idli", "steamed", "rice cake", "south indian", "fermented", "healthy", "vegan"]
+    },
+    {
+        title: "Dosa",
+        description: "Crispy South Indian crepe made from fermented rice and lentil batter",
+        category: "Breakfast",
+        url: "BreakFastin1.html#dosa",
+        keywords: ["dosa", "crepe", "fermented", "south indian", "crispy", "lentil", "rice"]
+    },
+    {
+        title: "Vada",
+        description: "Crispy South Indian savory donut made from urad dal",
+        category: "Breakfast",
+        url: "BreakFastin1.html#vada",
+        keywords: ["vada", "medu vada", "savory", "donut", "urad dal", "south indian", "fried"]
+    },
+    {
+        title: "Poori",
+        description: "Deep-fried Indian bread made from whole wheat flour",
+        category: "Breakfast",
+        url: "BreakFastin1.html#poori",
+        keywords: ["poori", "fried bread", "whole wheat", "puffy", "indian", "breakfast"]
+    },
+    {
+        title: "Pongal",
+        description: "Comforting South Indian rice-lentil porridge with ghee and spices",
+        category: "Breakfast",
+        url: "BreakFastin1.html#pongal",
+        keywords: ["pongal", "rice", "lentil", "porridge", "south indian", "comfort food"]
+    },
+    {
+        title: "Upma",
+        description: "Classic South Indian breakfast made with semolina and vegetables",
+        category: "Breakfast",
+        url: "BreakFastin1.html#upma",
+        keywords: ["upma", "semolina", "rava", "south indian", "vegetable", "savory"]
+    },
+    {
+        title: "Aloo Paratha",
+        description: "North Indian flatbread stuffed with spiced potato filling",
+        category: "Breakfast",
+        url: "BreakFastin1.html#aloo-paratha",
+        keywords: ["aloo paratha", "potato", "stuffed", "flatbread", "north indian", "whole wheat"]
+    },
+    {
+        title: "Avocado Toast",
+        description: "Modern breakfast with creamy mashed avocado on toasted bread",
+        category: "Breakfast",
+        url: "BreakFastin1.html#avocado-toast",
+        keywords: ["avocado", "toast", "healthy", "quick", "modern", "vegetarian"]
+    },
+    {
+        title: "French Toast",
+        description: "Bread soaked in egg mixture and fried to golden perfection",
+        category: "Breakfast",
+        url: "BreakFastin1.html#french-toast",
+        keywords: ["french toast", "eggy bread", "sweet", "breakfast", "classic"]
+    },
+    {
+        title: "Egg Bhurji",
+        description: "Spicy Indian-style scrambled eggs with onions and tomatoes",
+        category: "Breakfast",
+        url: "BreakFastin1.html#egg-bhurji",
+        keywords: ["egg bhurji", "scrambled eggs", "spicy", "indian", "protein", "quick"]
+    },
+    {
+        title: "Pancakes",
+        description: "Fluffy breakfast cakes perfect with syrup, butter or berries",
+        category: "Breakfast",
+        url: "BreakFastin1.html#pancakes",
+        keywords: ["pancakes", "fluffy", "breakfast", "sweet", "classic", "worldwide"]
+    },
+    {
+        title: "Masala Oats",
+        description: "Healthy Indian-style oats with vegetables and spices",
+        category: "Breakfast",
+        url: "BreakFastin1.html#masala-oats",
+        keywords: ["masala oats", "oats", "healthy", "vegetables", "spicy", "fiber"]
+    },
+    {
+    title: "Gulab Jamun",
+    description: "Classic Indian dessert made of deep-fried milk dumplings soaked in aromatic sugar syrup",
+    category: "Dessert",
+    url: "Desserts.html#gulab-jamun",
+    keywords: ["gulab jamun", "indian sweet", "milk dumplings", "sugar syrup", "festive dessert"]
+},
+{
+    title: "Rasgulla",
+    description: "Soft and spongy white cheese balls cooked in light sugar syrup - a traditional Bengali delight",
+    category: "Dessert",
+    url: "Desserts.html#rasgulla",
+    keywords: ["rasgulla", "bengali sweet", "chenna", "sugar syrup", "spongy dessert"]
+},
+{
+    title: "Carrot Halwa",
+    description: "Rich North Indian dessert made with grated carrots, milk, sugar, and ghee, slow-cooked to perfection",
+    category: "Dessert",
+    url: "Desserts.html#carrot-halwa",
+    keywords: ["gajar ka halwa", "carrot halwa", "indian dessert", "slow cooked", "festive sweet"]
+},
+{
+    title: "Kheer",
+    description: "Creamy Indian rice pudding made with milk, sugar, and flavored with cardamom and nuts",
+    category: "Dessert",
+    url: "Desserts.html#kheer",
+    keywords: ["kheer", "rice pudding", "indian dessert", "cardamom", "festive sweet"]
+},
+{
+    title: "Brownies",
+    description: "Rich and gooey chocolate brownies with a crackly top and soft center - a timeless dessert treat",
+    category: "Dessert",
+    url: "Desserts.html#brownies",
+    keywords: ["brownies", "chocolate", "baked dessert", "fudgy", "easy dessert"]
+},
+{
+    title: "Fruit Custard",
+    description: "Light and refreshing dessert made with creamy custard and seasonal fruits - great for summer",
+    category: "Dessert",
+    url: "Desserts.html#fruit-custard",
+    keywords: ["fruit custard", "custard", "summer dessert", "fruits", "quick dessert"]
+},
+{
+    title: "Chicken Biryani",
+    description: "Fragrant and flavorful rice dish made with marinated chicken, basmati rice, and aromatic spices",
+    category: "Lunch",
+    url: "Lunch.html#chicken-biryani",
+    keywords: ["chicken biryani", "biryani", "indian rice dish", "spicy", "festive food"]
+},
+{
+    title: "Chickpea Buddha Bowl",
+    description: "Nourishing bowl packed with roasted chickpeas, colorful veggies, grains, and tahini dressing",
+    category: "Lunch",
+    url: "Lunch.html#chickpea-buddha-bowl",
+    keywords: ["buddha bowl", "chickpea", "healthy lunch", "vegetarian", "protein bowl"]
+},
+{
+    title: "Sambar Rice",
+    description: "Wholesome South Indian dish with rice, lentils, vegetables and flavorful sambar seasoning",
+    category: "Lunch",
+    url: "Lunch.html#sambar-rice",
+    keywords: ["sambar rice", "south indian", "lentil rice", "comfort food", "vegetarian"]
+},
+{
+    title: "Lemon Rice",
+    description: "Tangy South Indian rice dish seasoned with lemon juice, peanuts and aromatic spices",
+    category: "Lunch",
+    url: "Lunch.html#lemon-rice",
+    keywords: ["lemon rice", "south indian", "tangy rice", "quick lunch", "vegetarian"]
+},
+{
+    title: "Curd Rice",
+    description: "Cooling South Indian dish of rice mixed with yogurt and tempered with spices",
+    category: "Lunch",
+    url: "Lunch.html#curd-rice",
+    keywords: ["curd rice", "yogurt rice", "south indian", "summer food", "comfort food"]
+},
+{
+    title: "Vegetable Biryani",
+    description: "Fragrant rice dish made with basmati rice, mixed vegetables and aromatic spices",
+    category: "Lunch",
+    url: "Lunch.html#vegetable-biryani",
+    keywords: ["vegetable biryani", "biryani", "vegetarian", "rice dish", "indian cuisine"]
+},
+{
+    title: "Rasam Rice",
+    description: "Tangy and spicy South Indian soup served with steamed rice - comforting and great for digestion",
+    category: "Lunch",
+    url: "Lunch.html#rasam-rice",
+    keywords: ["rasam", "south indian", "comfort food", "digestive", "vegetarian"]
+},
+{
+    title: "Mutton Biryani",
+    description: "Rich and flavorful rice dish made with tender mutton pieces and aromatic spices",
+    category: "Lunch",
+    url: "Lunch.html#mutton-biryani",
+    keywords: ["mutton biryani", "biryani", "indian rice dish", "festive food", "non-vegetarian"]
+},
+{
+    title: "Rajma Chawal",
+    description: "Comforting North Indian dish of red kidney beans in spiced tomato gravy served with rice",
+    category: "Lunch",
+    url: "Lunch.html#rajma-chawal",
+    keywords: ["rajma chawal", "kidney beans", "comfort food", "north indian", "protein rich"]
+},
+{
+    title: "Palak Paneer",
+    description: "Classic North Indian dish of paneer cubes in smooth spinach gravy - rich in iron and protein",
+    category: "Lunch",
+    url: "Lunch.html#palak-paneer",
+    keywords: ["palak paneer", "spinach curry", "paneer", "vegetarian", "north indian"]
+},
+{
+    title: "Dal Makhani",
+    description: "Creamy Punjabi lentil curry made with black lentils and kidney beans, slow-cooked with butter",
+    category: "Lunch",
+    url: "Lunch.html#dal-makhani",
+    keywords: ["dal makhani", "black dal", "punjabi", "comfort food", "protein rich"]
+},
+{
+    title: "Butter Chicken",
+    description: "Creamy North Indian curry made with marinated chicken in rich tomato-butter-cream sauce",
+    category: "Lunch",
+    url: "Lunch.html#butter-chicken",
+    keywords: ["butter chicken", "murgh makhani", "chicken curry", "north indian", "non-vegetarian"]
+},
+{
+    title: "Aloo Gobi",
+    description: "Classic North Indian dry curry made with potatoes and cauliflower seasoned with spices",
+    category: "Lunch",
+    url: "Lunch.html#aloo-gobi",
+    keywords: ["aloo gobi", "potato cauliflower", "vegetarian", "dry curry", "comfort food"]
+},
+{
+    title: "Spaghetti Aglio e Olio",
+    description: "Classic Italian pasta with garlic, olive oil and chili flakes - simple yet bursting with flavor",
+    category: "Lunch",
+    url: "Lunch.html#spaghetti-aglio-e-olio",
+    keywords: ["spaghetti", "italian", "garlic pasta", "quick meal", "vegetarian"]
+},
+{
+    title: "Vegetable Fried Rice",
+    description: "Quick Indo-Chinese rice dish packed with colorful vegetables and flavorful seasonings",
+    category: "Lunch",
+    url: "Lunch.html#vegetable-fried-rice",
+    keywords: ["fried rice", "indo-chinese", "quick meal", "vegetarian", "rice dish"]
+},
+{
+    title: "Samosa",
+    description: "Crispy fried pastry with spiced potato and pea filling - India's most popular snack",
+    category: "Snack",
+    url: "Snacks.html#samosa",
+    keywords: ["samosa", "fried snack", "potato filling", "street food", "vegetarian"]
+},
+{
+    title: "Kachori",
+    description: "Deep fried pastry stuffed with spiced lentil or pea filling - crispy and flavorful",
+    category: "Snack",
+    url: "Snacks.html#kachori",
+    keywords: ["kachori", "fried snack", "lentil filling", "street food", "vegetarian"]
+},
+{
+    title: "Pakora",
+    description: "Crispy fritters made by deep-frying vegetables coated in spiced chickpea batter",
+    category: "Snack",
+    url: "Snacks.html#pakora",
+    keywords: ["pakora", "fritters", "chickpea flour", "rainy day snack", "vegetarian"]
+},
+{
+    title: "Dhokla",
+    description: "Steamed savory cake made from fermented rice and chickpea batter - soft and fluffy",
+    category: "Snack",
+    url: "Snacks.html#dhokla",
+    keywords: ["dhokla", "steamed snack", "gujarati", "healthy snack", "vegetarian"]
+},
+{
+    title: "Sev Puri",
+    description: "Popular Mumbai street food - crispy puris topped with potatoes, chutneys and sev",
+    category: "Snack",
+    url: "Snacks.html#sev-puri",
+    keywords: ["sev puri", "chaat", "street food", "crispy snack", "vegetarian"]
+},
+{
+    title: "Bhel Puri",
+    description: "Mumbai's famous savory snack mix of puffed rice, vegetables, chutneys and sev",
+    category: "Snack",
+    url: "Snacks.html#bhel-puri",
+    keywords: ["bhel puri", "chaat", "street food", "puffed rice", "vegetarian"]
+},
+{
+    title: "Aloo Tikki",
+    description: "Crispy potato patties seasoned with spices - served plain or as chaat",
+    category: "Snack",
+    url: "Snacks.html#aloo-tikki",
+    keywords: ["aloo tikki", "potato patties", "street food", "fried snack", "vegetarian"]
+},
+{
+    title: "Dabeli",
+    description: "Gujarati street food - spiced potato filling in burger bun with chutneys and sev",
+    category: "Snack",
+    url: "Snacks.html#dabeli",
+    keywords: ["dabeli", "gujarati", "street food", "potato burger", "vegetarian"]
+},
+{
+    title: "Kathi Roll",
+    description: "Flaky paratha wrapped around spiced chicken or paneer filling with chutneys",
+    category: "Snack",
+    url: "Snacks.html#kathi-roll",
+    keywords: ["kathi roll", "wrap", "street food", "quick snack", "non-veg option"]
+},
+{
+    title: "Paneer Roll",
+    description: "Soft paratha rolled with spiced paneer filling and chutneys - perfect handheld snack",
+    category: "Snack",
+    url: "Snacks.html#paneer-roll",
+    keywords: ["paneer roll", "wrap", "vegetarian", "street food", "protein snack"]
+},
+{
+    title: "Pav Bhaji",
+    description: "Mumbai's iconic buttery vegetable mash served with soft buns - hearty and flavorful",
+    category: "Snack",
+    url: "Snacks.html#pav-bhaji",
+    keywords: ["pav bhaji", "mumbai", "street food", "vegetable mash", "buttery"]
+},
+{
+    title: "Chaat Mix",
+    description: "Healthy Indian-style snack mix with chickpeas, chutneys and crunchy sev",
+    category: "Snack",
+    url: "Snacks.html#chaat-mix",
+    keywords: ["chaat", "snack mix", "chickpeas", "street food", "vegetarian"]
+}
+];
+    });
+    
+
+    function searchRecipes() {
+        const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
+        if (!searchTerm) return;
+        const results = window.recipeDatabase.filter(recipe => {
+            return recipe.title.toLowerCase().includes(searchTerm) ||
+                   recipe.description.toLowerCase().includes(searchTerm) ||
+                   recipe.category.toLowerCase().includes(searchTerm) ||
+                   recipe.keywords.some(keyword => keyword.includes(searchTerm));
+        });
+
+        displaySearchResults(results, searchTerm);
+    }
+
+    function displaySearchResults(results, searchTerm) {
+
+        const oldResults = document.getElementById("search-results-container");
+        if (oldResults) oldResults.remove();
+
+        if (results.length === 0) {
+            const noResults = document.createElement("div");
+            noResults.id = "search-results-container";
+            noResults.innerHTML = `<p>No recipes found for "${searchTerm}"</p>`;
+            document.querySelector(".search-container").appendChild(noResults);
+            setTimeout(() => noResults.remove(), 3000);
+            return;
+        }
+
+        if (results.length === 1) {
+            window.location.href = results[0].url;
+            return;
+        }
+
+        const resultsContainer = document.createElement("div");
+        resultsContainer.id = "search-results-container";
+        resultsContainer.innerHTML = `
+            <h4 style="margin-top: 0; color: #333;">Results for "${searchTerm}"</h4>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                ${results.map(recipe => `
+                    <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                        <a href="${recipe.url}" style="
+                            display: block;
+                            color: #333;
+                            text-decoration: none;
+                            font-weight: bold;
+                        ">${recipe.title}</a>
+                        <small style="color: #666; display: block;">${recipe.description}</small>
+                        <span style="
+                            display: inline-block;
+                            background: #f0f0f0;
+                            color: #555;
+                            font-size: 0.8em;
+                            padding: 2px 6px;
+                            border-radius: 10px;
+                            margin-top: 4px;
+                        ">${recipe.category}</span>
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+
+        document.querySelector(".search-container").appendChild(resultsContainer);
+
+        // Close results when clicking outside
+        document.addEventListener("click", function closeResults(e) {
+            if (!e.target.closest("#search-results-container") && 
+                !e.target.closest(".search-container")) {
+                resultsContainer.remove();
+                document.removeEventListener("click", closeResults);
+            }
+        });
+    }
+
+    // Allow searching by pressing Enter key
+    document.getElementById("searchInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();  // Prevent form submission (if inside a form)
+        searchRecipes();
+    }
+});
+
+    let searchTimeout;
+    document.getElementById("searchInput").addEventListener("input", function(e) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            if (this.value.trim().length > 2) {
+                searchRecipes();
+            }
+        }, 300);
+    });
+</script>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">
+      <a href="Dish Delight.html"><h2>Dish Delight</h2></a>
+    </div>
+    <nav>
+      <a href="Recipes.html">Recipes</a>
+      <a href="Favourites.html">Favourites</a>
+      <div class="dropdown">
+        <a>Categories</a>
+        <div class="dropdown-content">
+          <a href="Veg.html">Veg</a>
+          <a href="nonveg.html">Non-Veg</a>
+        </div>
+      </div>
+      <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search recipes...">
+        <button class="search-button" onclick="searchRecipes()">🔍</button>
+      </div>
+      <span id="login-link"><a href="login.html">Login</a></span>
+    </nav>
+  </div>
+  
+  <div class="hero">
+    <h1>Welcome to Ultimate Recipe World</h1>
+    <p>Explore delicious recipes for every occasion!</p>
+  </div>
+
+  <section class="categories">
+    <div class="category">
+      <a href="BreakFastin1.html"><img src="https://d2rdhxfof4qmbb.cloudfront.net/wp-content/uploads/20180821150600/Indian-Breakfast.jpg" alt="Category 1"></a>
+      <h3>Breakfast</h3>
+    </div>
+    <div class="category">
+      <a href="Lunch.html"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSySR2QcY_jpiOWzyCvjcoVP4xwAhFwOMp_sWdb0VJOGeGuAIcT_ru8l1LB00mx6s1EpEg&usqp=CAU" alt="Cateory 2"></a>
+      <h3>Lunch</h3>
+    </div>
+    <div class="category">
+      <a href="Snacks.html"><img src="https://imgs.search.brave.com/McRPl-MwSYFhVCewsRPyNjMEIAMuV8PUg-qqCKCUq9U/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Y29va3dpdGhrdXNo/aS5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMTYvMTAvYmVz/dF9wdWZmX3Bhc3Ry/eV9zYW1vc2FfcmVj/aXBlLmpwZw" alt="Category 3"></a>
+      <h3>Snacks</h3>
+    </div>
+    <div class="category">
+      <a href="Desserts.html"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2TFFDPHrB46vPxj1pIdDx74VKPZ0ddZveXw&s" alt="Category 4"></a>
+      <h3>Desserts</h3>
+    </div>
+  </section>
+
+  <section class="featured-recipes">
+    <h2>Featured Recipes</h2>
+    <div class="recipe-list">
+      <div class="recipe-card" onclick="window.location.href='Lunch.html#mutton-biryani'">
+        <img src="https://imgs.search.brave.com/tLe5D-0rODDVyqBtsEsdzJRf3nLu6vtNSC-Vow7rmak/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/c2FpbHVzZm9vZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MDkvMDYvc2ltcGxl/LW11dHRvbi1iaXJ5/YW5pLmpwZw" alt="Mutton Biryani">
+        <h2>Mutton Biryani</h2>
+      </div>
+      <div class="recipe-card" onclick="window.location.href='Lunch.html#butter-chicken'">
+        <img src="https://imgs.search.brave.com/AEGtYDQojYbAELDWa-P1xR_-gPjAFbbRkJzI-Y3xyfA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9idXR0ZXItY2hp/Y2tlbl80NjY2ODkt/NTQ3NzYuanBnP3Nl/bXQ9YWlzX2h5YnJp/ZCZ3PTc0MA" alt="Butter Chicken">
+        <h2>Butter Chicken</h2>
+      </div>
+      <div class="recipe-card" onclick="window.location.href='BreakFastin1.html#idly'">
+        <img src="https://th.bing.com/th/id/OIP.acHMl7OKBxP2eZEgFZ7bJgHaFj?w=264&h=197&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Idly">
+        <h2>Idly</h2>
+      </div>
+      <div class="recipe-card" onclick="window.location.href='Snacks.html#samosa'">
+        <img src="https://imgs.search.brave.com/z5xl-bloCmLb0PgKnJv6iUt1ObkZ0DLRfiFYLbwBfIY/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEwLzY1LzQ5LzY5/LzM2MF9GXzEwNjU0/OTY5MTNfb1JyeE5O/aEhGekFoQTNWQ3Ns/eGpWTnZVdFFTbm9w/NXMuanBn" alt="Samosa">
+        <h2>Samosa</h2>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Recipe Website. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Favorite Recipes</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e67e22;
+    }
+
+    h1 {
+      color: #d35400;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .favorites-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .favorite-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .favorite-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .favorite-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 3px solid #f1c40f;
+    }
+
+    .favorite-content {
+      padding: 20px;
+    }
+
+    .favorite-title {
+      color: #e67e22;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .favorite-desc {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      font-size: 0.9em;
+      margin-right: 10px;
+    }
+
+    .btn-view {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .btn-view:hover {
+      background-color: #2980b9;
+    }
+
+    .btn-remove {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .btn-remove:hover {
+      background-color: #c0392b;
+    }
+
+    .empty-favorites {
+      text-align: center;
+      padding: 50px;
+      color: #666;
+      font-size: 1.2em;
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 768px) {
+      .favorites-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>My Favorite Recipes</h1>
+    <p>All your saved recipes in one place</p>
+  </div>
+
+  <div class="favorites-container" id="favorites-list">
+    <!-- Favorites will be dynamically inserted here -->
+  </div>
+
+  <script>
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    const favoritesList = document.getElementById('favorites-list');
+
+    function renderFavorites() {
+      if (favorites.length === 0) {
+        favoritesList.innerHTML = '<div class="empty-favorites">You haven\'t favorited any recipes yet!</div>';
+        return;
+      }
+
+      favoritesList.innerHTML = '';
+
+      favorites.forEach(recipe => {
+        const card = document.createElement('div');
+        card.className = 'favorite-card';
+        card.innerHTML = `
+          <div class="favorite-image" style="background-image: url('${recipe.image}')"></div>
+          <div class="favorite-content">
+            <h3 class="favorite-title">${recipe.title}</h3>
+            <p class="favorite-desc">${recipe.description}</p>
+            <div>
+              <a href="../BreakFastin1.html${recipe.link}" class="btn btn-view">View Recipe</a>
+              <button class="btn btn-remove" data-recipe-id="${recipe.id}">Remove</button>
+            </div>
+          </div>
+        `;
+        favoritesList.appendChild(card);
+      });
+
+      document.querySelectorAll('.btn-remove').forEach(button => {
+        button.addEventListener('click', function () {
+          const recipeId = this.dataset.recipeId;
+          removeFavorite(recipeId);
+        });
+      });
+    }
+
+    function removeFavorite(recipeId) {
+      favorites = favorites.filter(recipe => recipe.id !== recipeId);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      renderFavorites();
+      alert('Recipe removed from favorites!');
+    }
+
+    renderFavorites();
+  </script>
+</body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South Indian Breakfast Recipes</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        /* Recipe Grid */
+        .recipe-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .recipe-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .recipe-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .recipe-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        
+        .recipe-card h2 {
+            font-size: 30px;
+            color: #110909;
+            margin: 10px 0;
+        }
+        
+        /* Recipe Container */
+        .recipe-container {
+            display: none;
+            flex-wrap: wrap;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .recipe-container.active {
+            display: flex;
+        }
+        
+        .recipe-content {
+            flex: 2;
+            min-width: 300px;
+            padding: 25px;
+        }
+        
+        .recipe-sidebar {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .recipe-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .nutrition-info {
+            background-color: #f1f1f1;
+            padding: 15px;
+            flex-grow: 1;
+        }
+        
+        .recipe-container h1 {
+            color: #d35400;
+            margin-top: 0;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+            text-align: left;
+        }
+        
+        .recipe-container h2 {
+            color: #e67e22;
+            margin-top: 25px;
+            font-size: 1.5em;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-link {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-link:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-favorite {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-favorite:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-favorite.favorited {
+            background-color: #2ecc71;
+        }
+        
+        /* Upma Specific Styles */
+        .upma .recipe-image {
+            height: 300px;
+            border-bottom: 3px solid #f1c40f;
+        }
+        
+        .upma .nutrition-info {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-left: 1px solid #eee;
+        }
+        
+        .upma h1 {
+            color: #e67e22;
+            font-size: 2.2em;
+        }
+        
+        .upma h2 {
+            color: #d35400;
+        }
+        
+        .upma .description {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .upma ul, .upma ol {
+            padding-left: 25px;
+        }
+        
+        .upma li {
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+        
+        .upma .btn {
+            padding: 12px 25px;
+            font-size: 1em;
+        }
+        
+        .upma .btn-link:hover, .upma .btn-favorite:hover {
+            transform: translateY(-2px);
+        }
+        
+        .upma .tips-section {
+            background-color: #f8f4e5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 3px solid #f1c40f;
+        }
+        
+        .upma .serving-suggestions {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+        
+        /* Back Button */
+        .back-button {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            width: fit-content;
+        }
+        
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+        
+        @media (max-width: 768px) {
+            .recipe-container {
+                flex-direction: column;
+            }
+            
+            .recipe-image {
+                order: -1;
+                height: 250px;
+            }
+            
+            .recipe-sidebar {
+                flex-direction: column;
+            }
+            
+            .nutrition-info {
+                border-left: none;
+                border-top: 1px solid #eee;
+            }
+            
+            .upma .recipe-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="recipe-grid-view">
+        <h1>Choose Your Dessert</h1>
+        
+        <div class="recipe-grid">
+            <div class="recipe-card" onclick="showRecipe('gulab-jamun')">
+                <img src="https://imgs.search.brave.com/Xtsqt055TFP8rNOSX0GNfpMdOY3v9lgNnguDGUE5b4Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQy/NDUwOTk3My9waG90/by9ndWxhYi1qYW11/bi1hbi1pbmRpYW4t/ZGVzc2VydC5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9bk5Y/WUdJTVk3ejRiQnE2/c1JCbGdvSGJBSk41/cDc1R2hXMGhWWjh1/V2hBTT0" alt="gulab-jamun">
+                <h2>Gulab Jamun</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('rasgulla')">
+                <img src="https://imgs.search.brave.com/WwfBLkZjZbSJ9uG8KrsDXosMvBk2OTiX1zdBduXj_28/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA4LzI0LzM1LzY4/LzM2MF9GXzgyNDM1/Njg3OF9veHdWWDgw/b1puTG52THREc0Rn/Q3h4SllWYlR0T0RK/bS5qcGc" alt="rasgulla">
+                <h2>Rasgulla</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('carrot-halwa')">
+                <img src="https://imgs.search.brave.com/icZZBRkOFXloWSHYpZ9uKhTzKNj9UnEtAe2HV0PWhHo/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzE4LzA4Lzcx/LzM2MF9GXzEyMTgw/ODcxODRfNFNRTVdP/Q0RSVThvMDI1QmNI/SDJXcEpiWFJFb2JO/R0UuanBn" alt="carrot-halwa">
+                <h2>Carrot Halwa</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('kheer')">
+                <img src="https://imgs.search.brave.com/tgQEHOZn4yl71811gWDhFObuCU__IP90bYuKQ7buCsM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMz/MDM1NjU3NS9waG90/by9raGVlci1kaXNo/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz0yVEQxOU5fcjBx/MVlOYS0yZHVlNW9W/QjVuTVhYc05LZko5/WGd6b2V2RnlVPQ" alt="kheer">
+                <h2>Kheer</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('brownies')">
+                <img src="https://imgs.search.brave.com/q_SRPB5dUZnS1l_EWEfK0aXT6cnFOGKynVxgypwap8A/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAzLzc1LzE4LzIw/LzM2MF9GXzM3NTE4/MjA1MV9UMTdteG5C/NTdTcXM3T3BXSzF5/Y3hCTlA5ekZKQnBK/Vi5qcGc" alt="brownies">
+                <h2>Brownies</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('fruit-custard')">
+                <img src="https://imgs.search.brave.com/NtsYSaeFcwzGC1EW1tcW9538_Rgf_3Bm42YDRgHsEBk/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA4LzY1Lzc4LzEw/LzM2MF9GXzg2NTc4/MTAwN19uY0d2SVNS/T3ZrRzRxWEdVVVI1/RjQ4Z3JzSzhxVDgx/SS5qcGc" alt="fruit-custard">
+                <h2>Fruit Custard</h2>
+            </div>
+            
+        </div>
+    </div>
+    <div id="kheer" class="recipe-container">
+        <div class="recipe-content">
+          <h1>Kheer (Rice Pudding)</h1>
+          <p>A creamy Indian dessert made with rice, milk, and sugar, flavored with cardamom and garnished with nuts.</p>
+          <h2>Ingredients</h2>
+          <ul>
+            <li>1/4 cup basmati rice</li>
+            <li>1 liter full cream milk</li>
+            <li>1/4 cup sugar (adjust to taste)</li>
+            <li>1/4 tsp cardamom powder</li>
+            <li>2 tbsp chopped nuts (cashews, almonds, pistachios)</li>
+            <li>1 tbsp raisins (optional)</li>
+            <li>Saffron strands (optional)</li>
+          </ul>
+          <h2>Preparation Steps</h2>
+          <ol>
+            <li>Rinse rice well and soak for 30 minutes. Drain before using.</li>
+            <li>Boil milk in a heavy-bottomed pan, then reduce heat and add the soaked rice.</li>
+            <li>Simmer on low, stirring often, until rice is cooked and milk thickens (about 40 mins).</li>
+            <li>Add sugar, cardamom, saffron, and nuts. Stir well and cook for another 5 minutes.</li>
+            <li>Serve warm or chilled, garnished with more nuts.</li>
+          </ol>
+          <div class="action-buttons">
+            <a href="https://www.youtube.com/watch?v=835sLyEmqSI" class="btn btn-link" target="_blank">Recipe Video</a>
+            <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+          </div>
+        </div>
+        <div class="recipe-sidebar">
+          <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/tgQEHOZn4yl71811gWDhFObuCU__IP90bYuKQ7buCsM/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMz/MDM1NjU3NS9waG90/by9raGVlci1kaXNo/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz0yVEQxOU5fcjBx/MVlOYS0yZHVlNW9W/QjVuTVhYc05LZko5/WGd6b2V2RnlVPQ')"></div>
+          <div class="nutrition-info">
+            <h2>Nutrition (per bowl)</h2>
+            <p><strong>Calories:</strong> 200 kcal</p>
+            <p><strong>Carbs:</strong> 30g</p>
+            <p><strong>Protein:</strong> 6g</p>
+            <p><strong>Fat:</strong> 7g</p>
+          </div>
+        </div>
+      </div>
+      <div id="brownies" class="recipe-container">
+        <div class="recipe-content">
+          <h1>Fudgy Chocolate Brownies</h1>
+          <p>Rich and gooey chocolate brownies with a crackly top and soft center – a timeless dessert treat!</p>
+          <h2>Ingredients</h2>
+          <ul>
+            <li>1/2 cup unsalted butter (melted)</li>
+            <li>1 cup sugar</li>
+            <li>2 eggs</li>
+            <li>1 tsp vanilla extract</li>
+            <li>1/3 cup unsweetened cocoa powder</li>
+            <li>1/2 cup all-purpose flour</li>
+            <li>1/4 tsp salt</li>
+            <li>1/4 tsp baking powder</li>
+            <li>Optional: chocolate chips or chopped nuts</li>
+          </ul>
+          <h2>Preparation Steps</h2>
+          <ol>
+            <li>Preheat oven to 175°C (350°F). Grease a square baking pan.</li>
+            <li>Mix melted butter, sugar, eggs, and vanilla in a bowl.</li>
+            <li>Sift in cocoa powder, flour, salt, and baking powder. Mix gently.</li>
+            <li>Fold in chocolate chips or nuts if using.</li>
+            <li>Pour batter into the pan and spread evenly.</li>
+            <li>Bake for 20–25 minutes or until a toothpick comes out with moist crumbs.</li>
+            <li>Cool before cutting into squares. Enjoy warm or chilled.</li>
+          </ol>
+          <div class="action-buttons">
+            <a href="https://www.youtube.com/watch?v=aSR_13kV3z8" class="btn btn-link" target="_blank">Recipe Video</a>
+            <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+          </div>
+        </div>
+        <div class="recipe-sidebar">
+          <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/q_SRPB5dUZnS1l_EWEfK0aXT6cnFOGKynVxgypwap8A/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAzLzc1LzE4LzIw/LzM2MF9GXzM3NTE4/MjA1MV9UMTdteG5C/NTdTcXM3T3BXSzF5/Y3hCTlA5ekZKQnBK/Vi5qcGc')"></div>
+          <div class="nutrition-info">
+            <h2>Nutrition (per piece)</h2>
+            <p><strong>Calories:</strong> 250 kcal</p>
+            <p><strong>Carbs:</strong> 35g</p>
+            <p><strong>Protein:</strong> 3g</p>
+            <p><strong>Fat:</strong> 12g</p>
+          </div>
+        </div>
+      </div>
+      <div id="fruit-custard" class="recipe-container">
+        <div class="recipe-content">
+          <h1>Fruit Custard</h1>
+          <p>A light and refreshing dessert made with creamy custard and seasonal fruits – great for summer!</p>
+          <h2>Ingredients</h2>
+          <ul>
+            <li>2 cups milk</li>
+            <li>2 tbsp custard powder (vanilla flavor)</li>
+            <li>3 tbsp sugar</li>
+            <li>1/2 cup chopped apples</li>
+            <li>1/2 cup chopped bananas</li>
+            <li>1/2 cup grapes</li>
+            <li>1/2 cup pomegranate seeds</li>
+            <li>Chopped nuts (optional)</li>
+          </ul>
+          <h2>Preparation Steps</h2>
+          <ol>
+            <li>Mix custard powder in 1/4 cup cold milk to form a smooth paste.</li>
+            <li>Boil the rest of the milk with sugar. Reduce heat and add the custard paste while stirring.</li>
+            <li>Cook for 3-5 minutes until thick. Let it cool, then refrigerate for 1 hour.</li>
+            <li>Mix in the chopped fruits just before serving. Top with nuts if desired.</li>
+          </ol>
+          <div class="action-buttons">
+            <a href="https://www.youtube.com/watch?v=JvRsaEr8rsw" class="btn btn-link" target="_blank">Recipe Video</a>
+            <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+          </div>
+        </div>
+        <div class="recipe-sidebar">
+          <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/NtsYSaeFcwzGC1EW1tcW9538_Rgf_3Bm42YDRgHsEBk/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA4LzY1Lzc4LzEw/LzM2MF9GXzg2NTc4/MTAwN19uY0d2SVNS/T3ZrRzRxWEdVVVI1/RjQ4Z3JzSzhxVDgx/SS5qcGc')"></div>
+          <div class="nutrition-info">
+            <h2>Nutrition (per bowl)</h2>
+            <p><strong>Calories:</strong> 180 kcal</p>
+            <p><strong>Carbs:</strong> 30g</p>
+            <p><strong>Protein:</strong> 4g</p>
+            <p><strong>Fat:</strong> 5g</p>
+          </div>
+        </div>
+      </div>
+    <div id="carrot-halwa" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Carrot Halwa (Gajar ka Halwa)</h1>
+            <p>A rich North Indian dessert made with grated carrots, milk, sugar, and ghee, slow-cooked to perfection.</p>
+            <h2>Ingredients</h2>
+            <ul>
+                <li>4 cups grated carrots (about 500g)</li>
+                <li>2 cups full-fat milk</li>
+                <li>1/2 cup sugar (adjust to taste)</li>
+                <li>4 tbsp ghee (clarified butter)</li>
+                <li>1/4 tsp cardamom powder</li>
+                <li>10 cashews and 10 almonds (chopped)</li>
+                <li>5-6 raisins</li>
+            </ul>
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Heat 1 tbsp ghee in a pan and roast cashews, almonds, and raisins until golden. Set aside.</li>
+                <li>In the same pan, add grated carrots and sauté for 5–7 minutes until slightly soft.</li>
+                <li>Pour in the milk and cook on medium flame. Stir occasionally.</li>
+                <li>Let it simmer until milk reduces and thickens. Stir to avoid burning.</li>
+                <li>Add sugar and cook until it melts and blends in. The mixture will turn slightly glossy.</li>
+                <li>Mix in the remaining ghee and cardamom powder. Cook for a few more minutes until the halwa thickens.</li>
+                <li>Finally, add roasted dry fruits and mix well.</li>
+                <li>Serve warm or chilled as per preference.</li>
+            </ol>
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=TNYeJKbHcqk" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+                <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/icZZBRkOFXloWSHYpZ9uKhTzKNj9UnEtAe2HV0PWhHo/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzE4LzA4Lzcx/LzM2MF9GXzEyMTgw/ODcxODRfNFNRTVdP/Q0RSVThvMDI1QmNI/SDJXcEpiWFJFb2JO/R0UuanBn')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 250 kcal</p>
+                <p><strong>Carbs:</strong> 30g</p>
+                <p><strong>Protein:</strong> 5g</p>
+                <p><strong>Fat:</strong> 12g</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="gulab-jamun" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Gulab Jamun</h1>
+            <p>A classic Indian dessert made of deep-fried milk dumplings soaked in aromatic sugar syrup.</p>
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 cup milk powder</li>
+                <li>1/4 cup all-purpose flour</li>
+                <li>1/4 tsp baking soda</li>
+                <li>2 tbsp ghee</li>
+                <li>Milk (as needed to form dough)</li>
+                <li>Oil or ghee for deep frying</li>
+                <li>For syrup: 1.5 cups sugar, 1.5 cups water, 3 cardamom pods, few drops of rose water</li>
+            </ul>
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>In a bowl, mix milk powder, flour, baking soda and ghee.</li>
+                <li>Add milk little by little to form a soft, smooth dough. Let it rest for 10 minutes.</li>
+                <li>Meanwhile, prepare the syrup by boiling sugar, water, and cardamom until slightly sticky. Add rose water and keep warm.</li>
+                <li>Divide the dough into small smooth balls with no cracks.</li>
+                <li>Heat oil/ghee on low-medium heat and fry the balls until golden brown.</li>
+                <li>Soak the fried balls in warm syrup for at least 30 minutes before serving.</li>
+            </ol>
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=NH1yqSEpJLY" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/Xtsqt055TFP8rNOSX0GNfpMdOY3v9lgNnguDGUE5b4Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQy/NDUwOTk3My9waG90/by9ndWxhYi1qYW11/bi1hbi1pbmRpYW4t/ZGVzc2VydC5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9bk5Y/WUdJTVk3ejRiQnE2/c1JCbGdvSGJBSk41/cDc1R2hXMGhWWjh1/V2hBTT0')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per piece)</h2>
+                <p><strong>Calories:</strong> 125 kcal</p>
+                <p><strong>Carbs:</strong> 20g</p>
+                <p><strong>Protein:</strong> 2g</p>
+                <p><strong>Fat:</strong> 5g</p>
+            </div>
+        </div>
+    </div>
+    <div id="rasgulla" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Rasgulla</h1>
+            <p>Soft and spongy white cheese balls cooked in light sugar syrup — a traditional Bengali delight.</p>
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 liter full cream milk</li>
+                <li>2 tbsp lemon juice or vinegar (to curdle milk)</li>
+                <li>1 cup sugar</li>
+                <li>4 cups water</li>
+                <li>2-3 cardamom pods</li>
+            </ul>
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Boil the milk. Once it starts boiling, add lemon juice and stir gently until it curdles completely.</li>
+                <li>Strain using a muslin cloth. Wash the chenna (curdled milk) under cold water and squeeze excess water.</li>
+                <li>Hang the cloth for 30 minutes to drain all moisture.</li>
+                <li>Knead the chenna for 10–15 minutes until smooth and no lumps remain.</li>
+                <li>Make small smooth balls with no cracks.</li>
+                <li>Boil sugar and water with cardamom in a wide pot to make the syrup.</li>
+                <li>Gently drop the balls into the boiling syrup. Cover and cook for 15–20 minutes, until they double in size.</li>
+                <li>Let them cool in syrup before serving. Chill if desired.</li>
+            </ol>
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=SGnqJ5K-bh4" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/WwfBLkZjZbSJ9uG8KrsDXosMvBk2OTiX1zdBduXj_28/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA4LzI0LzM1LzY4/LzM2MF9GXzgyNDM1/Njg3OF9veHdWWDgw/b1puTG52THREc0Rn/Q3h4SllWYlR0T0RK/bS5qcGc')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per piece)</h2>
+                <p><strong>Calories:</strong> 106 kcal</p>
+                <p><strong>Carbs:</strong> 18g</p>
+                <p><strong>Protein:</strong> 3g</p>
+                <p><strong>Fat:</strong> 2g</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <script>
+        // Show the selected recipe and hide others
+        function showRecipe(recipeId) {
+            document.getElementById('recipe-grid-view').style.display = 'none';
+            document.querySelectorAll('.recipe-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.getElementById(recipeId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    
+        // Toggle favorite and store in localStorage
+        function toggleFavorite(button) {
+            const container = button.closest('.recipe-container');
+            const id = container.id;
+            const title = container.querySelector('h1')?.innerText || "Recipe";
+            const description = container.querySelector('p')?.innerText || "";
+            const imageStyle = container.querySelector('.recipe-image')?.style.backgroundImage;
+            const image = imageStyle ? imageStyle.slice(5, -2) : "";
+            const link = `#${id}`;
+    
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    
+            const index = favorites.findIndex(fav => fav.id === id);
+    
+            if (index === -1) {
+                favorites.push({ id, title, description, image, link });
+                button.textContent = '❤️ Recipe Saved!';
+                button.classList.add('favorited');
+            } else {
+                favorites.splice(index, 1);
+                button.textContent = '❤️ Add to Favorites';
+                button.classList.remove('favorited');
+            }
+    
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+    
+        // Back to grid view
+        function backToGrid() {
+            document.getElementById('recipe-grid-view').style.display = 'block';
+            document.querySelectorAll('.recipe-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            window.scrollTo(0, 0);
+        }
+    
+        // Add back buttons to all recipe containers
+        
+        window.addEventListener('load', function () {
+    const hash = window.location.hash.substring(1); // remove the #
+    if (hash) {
+        showRecipe(hash);
+    }
+});
+    </script>
+</body>
+</html>

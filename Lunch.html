@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South Indian Breakfast Recipes</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        /* Recipe Grid */
+        .recipe-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .recipe-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .recipe-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .recipe-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        
+        .recipe-card h2 {
+            font-size: 30px;
+            color: #110909;
+            margin: 10px 0;
+        }
+        
+        /* Recipe Container */
+        .recipe-container {
+            display: none;
+            flex-wrap: wrap;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .recipe-container.active {
+            display: flex;
+        }
+        
+        .recipe-content {
+            flex: 2;
+            min-width: 300px;
+            padding: 25px;
+        }
+        
+        .recipe-sidebar {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .recipe-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .nutrition-info {
+            background-color: #f1f1f1;
+            padding: 15px;
+            flex-grow: 1;
+        }
+        
+        .recipe-container h1 {
+            color: #d35400;
+            margin-top: 0;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+            text-align: left;
+        }
+        
+        .recipe-container h2 {
+            color: #e67e22;
+            margin-top: 25px;
+            font-size: 1.5em;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-link {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-link:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-favorite {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-favorite:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-favorite.favorited {
+            background-color: #2ecc71;
+        }
+        
+        /* Upma Specific Styles */
+        .upma .recipe-image {
+            height: 300px;
+            border-bottom: 3px solid #f1c40f;
+        }
+        
+        .upma .nutrition-info {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-left: 1px solid #eee;
+        }
+        
+        .upma h1 {
+            color: #e67e22;
+            font-size: 2.2em;
+        }
+        
+        .upma h2 {
+            color: #d35400;
+        }
+        
+        .upma .description {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .upma ul, .upma ol {
+            padding-left: 25px;
+        }
+        
+        .upma li {
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+        
+        .upma .btn {
+            padding: 12px 25px;
+            font-size: 1em;
+        }
+        
+        .upma .btn-link:hover, .upma .btn-favorite:hover {
+            transform: translateY(-2px);
+        }
+        
+        .upma .tips-section {
+            background-color: #f8f4e5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 3px solid #f1c40f;
+        }
+        
+        .upma .serving-suggestions {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+        
+        /* Back Button */
+        .back-button {
+            display: block;
+            text-align:left;
+            margin: 20px auto;
+            padding: 5px 5px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            width: fit-content;
+        }
+        
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+        
+        @media (max-width: 768px) {
+            .recipe-container {
+                flex-direction: column;
+            }
+            
+            .recipe-image {
+                order: -1;
+                height: 250px;
+            }
+            
+            .recipe-sidebar {
+                flex-direction: column;
+            }
+            
+            .nutrition-info {
+                border-left: none;
+                border-top: 1px solid #eee;
+            }
+            
+            .upma .recipe-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="recipe-grid-view">
+        <h1>Choose Your Recipe</h1>
+        
+        <div class="recipe-grid">
+            <div class="recipe-card" onclick="showRecipe('sambar-rice')">
+                <img src="https://imgs.search.brave.com/6piVYSZAUQNh-a6E50dfgCW8dX0eZuwDrmndawTCrPE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTI1/NTg1NDY5NS9waG90/by9zYW1iaGFyLXJp/Y2UuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXowSHk5SWhH/dFBuY2dyRDh2TW03/UWhWcjBCYVpGUEQ3/NmhfTzJLWUxVNjQ9" alt="sambar-rice">
+                <h2>Sambar Rice</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('lemon-rice')">
+                <img src="https://imgs.search.brave.com/dY8YII886f5v86SlpEGFpyrBPMdj4pFeA9g470d4Zkg/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzI5LzI1Lzcy/LzM2MF9GXzQyOTI1/NzI4OF9Wanc5WExW/Q2c3QWFjTU5nZnZt/TTJ1Q0JiNXhaeFow/Si5qcGc" alt="lemon-rice">
+                <h2>Lemon Rice</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('curd-rice')">
+                <img src="https://imgs.search.brave.com/SqbIdgHd5JPA6oWGSZAcn9v0fqgwe754P9BEcbCFJ_Y/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/eXVtbXl0dW1teWFh/cnRoaS5jb20vd3At/Y29udGVudC91cGxv/YWRzLzIwMjMvMDgv/Y3VyZC1yaWNlLTEu/anBlZw" alt="curd-rice">
+                <h2>Curd Rice</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('vegetable-biryani')">
+                <img src="https://imgs.search.brave.com/F-E477-Bgbi0WC2ptUqmo6CBrW41AjiNjUtTauyrOOQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA5LzQyLzk4Lzk2/LzM2MF9GXzk0Mjk4/OTYyMl82YlZaUkxZ/M2xodTNvb1hqNlVk/RG5hN2l1VEI2SG9m/Ny5qcGc" alt="vegetable-biryani">
+                <h2>Vegetable-Biryani</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('rasam-rice')">
+                <img src="https://imgs.search.brave.com/qXcM3DmmzDjCMHDmlR5md1mFsChpJcqNp7OjozdFnos/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aW5kaWFuaGVhbHRo/eXJlY2lwZXMuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDIw/LzEyL3Jhc2FtLXJl/Y2lwZS1zd2FzdGhp/cy0xLndlYnA" alt="rasam-rice">
+                <h2>Rasam-Rice</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('mutton-biryani')">
+                <img src="https://imgs.search.brave.com/tLe5D-0rODDVyqBtsEsdzJRf3nLu6vtNSC-Vow7rmak/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/c2FpbHVzZm9vZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MDkvMDYvc2ltcGxl/LW11dHRvbi1iaXJ5/YW5pLmpwZw" alt="mutton-biryani">
+                <h2>Mutton-Biryani</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('rajma-chawal')">
+                <img src="https://imgs.search.brave.com/uk2QZDv7DvPgm8wvTbpypUPToHgW_dF2EkrsblbvMFk/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Y29va2luZ2FuZG1l/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAxMi8wNi83MzYx/NzU5MjU4X2YxMTM1/NmJjZDNfejEud2Vi/cA" alt="Rajma Chawal">
+                <h2>Rajma Chawal</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('palak-paneer')">
+                <img src="https://imgs.search.brave.com/Uy642d3z1NsI_eEK_2heJ6axP3G2N31_i6jppKNLk9U/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9zcGluYWNoLXBh/bmVlci13b25kZXJf/MTE3OTEzMC02OTQy/MC5qcGc_c2VtdD1h/aXNfaHlicmlk" alt="Palak Paneer">
+                <h2>Palak Paneer</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('dal-makhani')">
+                <img src="https://imgs.search.brave.com/7a5xIRof2DJXUL85ha4lmhfn2-ihcV8hecJCOsX4wJY/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzEyLzQ1LzQ0LzUw/LzM2MF9GXzEyNDU0/NDUwNzZfdUVkeFBp/VWg2bDg1a0hTV2M4/Umc2bFdZY24zMm1L/ZFguanBn" alt="Dal Makhani">
+                <h2>Dal Makhani</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('butter-chicken')">
+                <img src="https://imgs.search.brave.com/AEGtYDQojYbAELDWa-P1xR_-gPjAFbbRkJzI-Y3xyfA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9idXR0ZXItY2hp/Y2tlbl80NjY2ODkt/NTQ3NzYuanBnP3Nl/bXQ9YWlzX2h5YnJp/ZCZ3PTc0MA" alt="butter-chicken">
+                <h2>Butter Chicken</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('aloo-gobi')">
+                <img src="https://imgs.search.brave.com/HyropDuOCzAQl3tfLV9evTQYnGkfJMdEpY9ohFKdag4/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMwMS5ueXQuY29t/L2ltYWdlcy8yMDIz/LzEyLzIxL211bHRp/bWVkaWEvTkQtQWxv/by1Hb2JpLWdrd2Mv/TkQtQWxvby1Hb2Jp/LWdrd2MtanVtYm8u/anBn" alt="aloo-gobi">
+                <h2>Aloo Gobi</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('spaghetti-aglio-e-olio')">
+                <img src="https://imgs.search.brave.com/--weQ291x6h1ybWsUk2pyuJ6JXAwqyTU-5UQC2MewWQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/c2ltcGx5cmVjaXBl/cy5jb20vdGhtYi9S/dnRINUZJbHFWcUU3/YnFnRWhRWUlUN1pO/aDA9LzE1MDB4MC9m/aWx0ZXJzOm5vX3Vw/c2NhbGUoKTptYXhf/Ynl0ZXMoMTUwMDAw/KTpzdHJpcF9pY2Mo/KS9TaW1wbHktUmVj/aXBlcy1TcGFnaGV0/dGktQWdsaW8tZS1P/bGlvLUxFQUQtNGEt/NGQzNTMxZTE5ZTYx/NDY0YTg1ZjJkZDRj/NmIzODdkYzkuanBn" alt="spaghetti-aglio-e-olio">
+                <h2>Spaghetti aglio e olio</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('vegetable-fried-rice')">
+                <img src="https://imgs.search.brave.com/UQdNh8qk1kYk31SH-fyuPj3tMr4BPP743tIpUjM7v-g/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQz/NTI4NzU3L3Bob3Rv/L2ZyaWVkLXJpY2Uu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PW1nUWRNeVhTLVZ5/SmJMczVrdlBZd200/RHl3QjNCcnIyVUhR/dEVLTTh3eFU9" alt="vegetable-fried-rice">
+                <h2>Vegetable Fried Rice</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('Natu Kodi Pulusu')">
+                <img src="https://th.bing.com/th/id/OIP.vvp4Y0n5ssSk_RoUUIkJ6gEyDM?w=276&h=184&c=7&r=0&o=5&pid=1.7" alt="Natu Kodi Pulusu">
+                <h2>Natu Kodi Pulusu</h2>
+             </div>
+            <div class="recipe-card" onclick="showRecipe('chickpea-buddha-bowl')">
+                <img src="https://imgs.search.brave.com/BLvtPS9725WHEilnxJgaq2CTVH-qtJZCeyFgDmr-XEI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pMC53/cC5jb20vdGhlc3Rv/bmVzb3VwLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvQ2hpY2tw/ZWEtQnVkZGhhLUJv/d2xzMi5qcGc_dz02/ODAmc3NsPTE" alt="chickpea-buddha-bowl">
+                <h2>Chickpea Buddha bowl</h2>
+            </div>
+            <div class="recipe-card" onclick="showRecipe('chicken-biryani')">
+                <img src="https://imgs.search.brave.com/EUKTV1CT40V76BKZPZv0jdr8LZ7hkxkU6loDGK6Z07E/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTI0/NDc2OTIxNy9waG90/by9jaGlja2VuLWR1/bS1iaXJ5YW5pLWlu/LXRvcm9udG8tb250/YXJpby1jYW5hZGEt/b24tbm92ZW1iZXIt/MTItMjAyMi5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9ZDBr/X0lCXzFKcGE4YVFq/ak5BX2dNbkZQMUZ2/TUhmSHByalRaUVFw/NHplST0" alt="chicken-biryani">
+                <h2>Chicken Biryani</h2>
+            </div>
+        </div>
+    </div>
+    <div id="chicken-biryani" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Chicken Biryani</h1>
+            <p>A fragrant and flavorful rice dish made with marinated chicken, basmati rice, aromatic spices, and herbs. A classic Indian delicacy perfect for special occasions and weekend feasts.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>500g chicken (bone-in preferred)</li>
+                <li>1.5 cups basmati rice</li>
+                <li>2 large onions (thinly sliced)</li>
+                <li>1/2 cup yogurt</li>
+                <li>2 medium tomatoes (chopped)</li>
+                <li>2 tbsp ginger-garlic paste</li>
+                <li>1/4 cup chopped mint leaves</li>
+                <li>1/4 cup chopped coriander leaves</li>
+                <li>Whole spices: bay leaf, 4 cloves, 3 cardamoms, 1 cinnamon stick, 1 star anise</li>
+                <li>Spices: turmeric, red chili powder, biryani masala</li>
+                <li>Saffron strands soaked in warm milk (optional)</li>
+                <li>Salt, oil, ghee, water</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li><strong>Marinate the chicken:</strong> Mix chicken with yogurt, ginger-garlic paste, turmeric, chili powder, biryani masala, salt, and a little oil. Let it marinate for at least 1 hour (preferably 4 hours or overnight).</li>
+                <li><strong>Fry onions:</strong> In a deep pot, heat oil or ghee. Fry sliced onions until golden brown and crispy. Set aside half for garnishing.</li>
+                <li><strong>Cook chicken:</strong> In the same pot, add whole spices and sauté for a minute. Add tomatoes and cook until soft. Add marinated chicken, mint, coriander, and half of the fried onions. Cook on medium heat until chicken is almost done.</li>
+                <li><strong>Cook rice:</strong> Rinse and soak basmati rice for 30 minutes. Boil water with salt and a few whole spices. Add rice and cook until 70-80% done. Drain the rice.</li>
+                <li><strong>Layer the biryani:</strong> In the same pot with chicken, spread the partially cooked rice over the chicken. Top with saffron milk (if using), remaining fried onions, mint, and coriander.</li>
+                <li><strong>Dum cooking:</strong> Cover the pot with a tight lid or seal with dough. Cook on low flame for 20–25 minutes (you can place a tawa underneath the pot to prevent burning).</li>
+                <li><strong>Serve:</strong> Let it rest for 10 minutes, then gently fluff up the biryani and serve hot with raita or salan.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=YFnjaHVYlwM" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/3OHDywJ1qBq1YDly8Ew-FOrPvZH3HSmjDciDvTI4I5k/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzkxLzIwLzg4/LzM2MF9GXzc5MTIw/ODgxNV8xSmxoaktG/TnJiMlAzMWtkR1Zl/bk5rMFRGSTJ6YWhH/Zy5qcGc')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 600 kcal</p>
+                <p><strong>Carbs:</strong> 55g</p>
+                <p><strong>Protein:</strong> 30g</p>
+                <p><strong>Fat:</strong> 28g</p>
+                <p><strong>Fiber:</strong> 4g</p>
+            </div>
+        </div>
+    </div>
+    <div id="Natu Kodi Pulusu" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Natu Kodi Pulusu</h1>
+            <p>A fragrant and flavorful rice dish made with marinated chicken, basmati rice, aromatic spices, and herbs. A classic Indian delicacy perfect for special occasions and weekend feasts.</p>
+            <h2>Ingredients</h2>
+            <ul>
+                <li>Pre-Cut Chicken Skinless – 1 Packet (500 grams)</li>
+                <li>Onions (sliced) – 2 medium-sized</li>
+                <li>Green chilies (slit) – 4</li>
+                <li>Tomatoes (chopped) – 2</li>
+                <li>Ginger-garlic paste – 1 tablespoon</li>
+                <li>Red chili powder – 1 tablespoon</li>
+                <li>Turmeric powder – 1/2 teaspoon</li>
+                <li>Coriander powder – 1 tablespoon</li>
+                <li>Mustard seeds – 1 teaspoon</li>
+                <li>Cumin seeds – 1 teaspoon</li>
+                <li>Curry leaves – a handful</li>
+                <li>Oil – 3 tablespoons,oil,Fresh coriander leaves (chopped) – for garnish</li>
+            </ul>
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Heat oil in a pan. Add mustard seeds, cumin seeds, and let them splutter.</li>
+                <li>Add sliced onions and sauté until golden brown.</li>
+                <li>Introduce green chilies, curry leaves, and ginger-garlic paste. Cook until the raw aroma fades.</li>
+                <li>Throw in the tomatoes and cook until they become mushy and the oil starts separating.</li>
+                <li>Time to spice things up! Add red chili powder, turmeric powder, and coriander powder. Mix well..</li>
+                <li>Add the pre cut chicken pieces and cook until they are nicely coated with the masala.</li>
+                <li>Pour in the tamarind pulp, add salt, and let it simmer until the chicken is cooked to perfection.</li>
+                <li>Garnish with fresh coriander leaves for that final touch of freshness.</li>
+                <li>There you have it – Natu Kodi Pulusu ready to be savored!</li>
+            </ol>
+   
+            <div class="action-buttons">
+                <a href="https://youtu.be/jKIStQ4Py_g?si=7oYvTEI2ziedED_s" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+            <div class="recipe-sidebar">
+                <div class="recipe-image" style="background-image: url('https://th.bing.com/th/id/OIP.vvp4Y0n5ssSk_RoUUIkJ6gEyDM?w=276&h=184&c=7&r=0&o=5&pid=1.7')"></div>
+                <div class="nutrition-info">
+                    <h2>Nutrition (per bowl)</h2>
+                    <p><strong>Calories:</strong> 450 kcal</p>
+                    <p><strong>Carbs:</strong> 45g</p>
+                    <p><strong>Protein:</strong> 14g</p>
+                    <p><strong>Fat:</strong> 20g</p>
+                    <p><strong>Fiber:</strong> 10g</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+   
+
+
+    
+    <div id="chickpea-buddha-bowl" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Chickpea Buddha Bowl</h1>
+            <p>A nourishing, wholesome bowl packed with roasted chickpeas, colorful veggies, grains, and a creamy tahini dressing. Perfect for a balanced vegetarian or vegan lunch or dinner.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 cup cooked or canned chickpeas (drained & rinsed)</li>
+                <li>1/2 cup cooked quinoa or brown rice</li>
+                <li>1/2 cup cherry tomatoes, halved</li>
+                <li>1/2 cup cucumber, diced</li>
+                <li>1/2 avocado, sliced</li>
+                <li>1/4 cup shredded carrots</li>
+                <li>1/4 cup purple cabbage, shredded</li>
+                <li>1 tbsp olive oil</li>
+                <li>1/2 tsp paprika</li>
+                <li>Salt & black pepper to taste</li>
+            </ul>
+    
+            <h2>Tahini Dressing</h2>
+            <ul>
+                <li>2 tbsp tahini</li>
+                <li>1 tbsp lemon juice</li>
+                <li>1 tsp maple syrup or honey</li>
+                <li>1 clove garlic, minced</li>
+                <li>2–3 tbsp water (to thin out)</li>
+                <li>Salt to taste</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li><strong>Roast chickpeas:</strong> Toss chickpeas with olive oil, paprika, salt, and pepper. Spread on a baking sheet and roast in a preheated oven at 200°C (400°F) for 20–25 minutes, until crispy.</li>
+                <li><strong>Prepare grains:</strong> Cook quinoa or brown rice according to package instructions. Fluff with a fork and let cool slightly.</li>
+                <li><strong>Chop veggies:</strong> While chickpeas roast, prep all fresh vegetables—halve tomatoes, dice cucumber, shred carrots and cabbage, and slice avocado.</li>
+                <li><strong>Make dressing:</strong> In a bowl, whisk together tahini, lemon juice, maple syrup, garlic, and a pinch of salt. Add water slowly and whisk until smooth and pourable.</li>
+                <li><strong>Assemble the bowl:</strong> In a large bowl, add a scoop of quinoa or rice. Arrange roasted chickpeas, cherry tomatoes, cucumber, carrots, cabbage, and avocado neatly around it.</li>
+                <li><strong>Drizzle dressing:</strong> Pour tahini dressing over the top. Garnish with sesame seeds or fresh herbs if desired.</li>
+                <li><strong>Serve:</strong> Serve immediately while the chickpeas are crispy and the veggies are fresh.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=gV3p0jTqXs0" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/BLvtPS9725WHEilnxJgaq2CTVH-qtJZCeyFgDmr-XEI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pMC53/cC5jb20vdGhlc3Rv/bmVzb3VwLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvQ2hpY2tw/ZWEtQnVkZGhhLUJv/d2xzMi5qcGc_dz02/ODAmc3NsPTE')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per bowl)</h2>
+                <p><strong>Calories:</strong> 450 kcal</p>
+                <p><strong>Carbs:</strong> 45g</p>
+                <p><strong>Protein:</strong> 14g</p>
+                <p><strong>Fat:</strong> 20g</p>
+                <p><strong>Fiber:</strong> 10g</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="sambar-rice" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Sambar Rice</h1>
+            <p>Sambar Rice is a wholesome and comforting South Indian dish made with rice, toor dal, mixed vegetables, and a delicious sambar seasoning. It’s perfect as a main meal and served with curd or papad.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 cup rice (preferably short grain or sona masoori)</li>
+                <li>1/2 cup toor dal (split pigeon peas)</li>
+                <li>1/4 tsp turmeric powder</li>
+                <li>1/2 tsp mustard seeds</li>
+                <li>1/2 tsp cumin seeds</li>
+                <li>2 tbsp sambar powder</li>
+                <li>1 tbsp tamarind paste (or tamarind soaked in water)</li>
+                <li>2 dried red chilies</li>
+                <li>1 sprig curry leaves</li>
+                <li>2 tbsp chopped fresh coriander leaves</li>
+                <li>Mixed vegetables (carrot, beans, brinjal, pumpkin, etc.)</li>
+                <li>1 small onion, chopped</li>
+                <li>1 small tomato, chopped</li>
+                <li>1/4 tsp asafoetida (hing)</li>
+                <li>2 tbsp ghee or oil</li>
+                <li>Salt to taste</li>
+                <li>Water as required</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Wash the rice and toor dal together 2-3 times. Then cook them in a pressure cooker with 3.5 cups of water and turmeric powder. Cook for 4 whistles or until soft and mushy.</li>
+                <li>Heat oil in a pan. Add mustard seeds, cumin seeds, red chilies, and curry leaves. Fry for a minute until fragrant.</li>
+                <li>Add the chopped onions and cook until they become soft and translucent.</li>
+                <li>Now, add the chopped tomatoes and cook until they turn soft and mushy.</li>
+                <li>Add the mixed vegetables (carrots, beans, etc.) and sauté them for 3–4 minutes.</li>
+                <li>Pour in about 1.5 cups of water, sambar powder, and salt. Let it cook until the vegetables are soft.</li>
+                <li>Add the tamarind paste (or soaked tamarind) and let it cook for another 5 minutes to blend the flavors.</li>
+                <li>Once the rice and dal are cooked, gently mash the rice-dal mixture and add it to the vegetable-sambar mixture. Stir well.</li>
+                <li>Let it simmer on low heat for 5 minutes, stirring occasionally to prevent it from sticking.</li>
+                <li>Garnish with fresh coriander and add a spoon of ghee if you like. Serve hot with papad, curd, or pickle.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=ji4bkE5qwI8" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/6piVYSZAUQNh-a6E50dfgCW8dX0eZuwDrmndawTCrPE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTI1/NTg1NDY5NS9waG90/by9zYW1iaGFyLXJp/Y2UuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXowSHk5SWhH/dFBuY2dyRDh2TW03/UWhWcjBCYVpGUEQ3/NmhfTzJLWUxVNjQ9')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 320 kcal</p>
+                <p><strong>Carbohydrates:</strong> 50g</p>
+                <p><strong>Protein:</strong> 9g</p>
+                <p><strong>Fat:</strong> 7g</p>
+                <p><strong>Fiber:</strong> 5g</p>
+            </div>
+        </div>
+    </div>
+    <div id="lemon-rice" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Lemon Rice</h1>
+            <p>Lemon Rice is a tangy, flavorful South Indian rice dish made with rice, lemon juice, and a tempering of spices. It's a perfect light lunch or snack, and can be served with yogurt or pickles.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 cup rice (preferably basmati or sona masoori)</li>
+                <li>1-2 tbsp lemon juice (adjust to taste)</li>
+                <li>1 tbsp oil (preferably coconut oil or vegetable oil)</li>
+                <li>1/2 tsp mustard seeds</li>
+                <li>1/2 tsp cumin seeds</li>
+                <li>1/4 tsp turmeric powder</li>
+                <li>2 dried red chilies</li>
+                <li>1 sprig curry leaves</li>
+                <li>1/4 tsp asafoetida (hing)</li>
+                <li>2 tbsp peanuts or cashews (optional)</li>
+                <li>1 small green chili, chopped (optional)</li>
+                <li>Salt to taste</li>
+                <li>Fresh coriander leaves for garnishing</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Wash the rice thoroughly and cook it with 2 cups of water until soft and fluffy. You can use a pressure cooker or rice cooker. Let it cool down slightly after cooking.</li>
+                <li>In a pan, heat oil over medium heat. Add mustard seeds and let them splutter.</li>
+                <li>Add cumin seeds, dried red chilies, and curry leaves. Sauté for a minute until fragrant.</li>
+                <li>Next, add the chopped green chili (if using) and sauté for another minute.</li>
+                <li>Now, add the peanuts or cashews and fry for 2–3 minutes until they turn golden brown.</li>
+                <li>Add turmeric powder and asafoetida (hing) to the tempering. Stir well for a few seconds.</li>
+                <li>Mix the cooked rice with the tempering, ensuring the rice is coated well with the spices.</li>
+                <li>Pour in the lemon juice and salt. Mix thoroughly and adjust the lemon juice and salt according to your taste.</li>
+                <li>Garnish with fresh coriander leaves and serve hot with yogurt or pickle.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=XpJdJmv0Ylk" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/dY8YII886f5v86SlpEGFpyrBPMdj4pFeA9g470d4Zkg/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzI5LzI1Lzcy/LzM2MF9GXzQyOTI1/NzI4OF9Wanc5WExW/Q2c3QWFjTU5nZnZt/TTJ1Q0JiNXhaeFow/Si5qcGc')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 210 kcal</p>
+                <p><strong>Carbs:</strong> 38g</p>
+                <p><strong>Protein:</strong> 5g</p>
+                <p><strong>Fat:</strong> 7g</p>
+                <p><strong>Fiber:</strong> 2g</p>
+            </div>
+        </div>
+    </div>
+    <div id="curd-rice" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Curd Rice</h1>
+            <p>Curd Rice is a comforting South Indian dish made with rice, yogurt (curd), and mild spices. It's cooling, easy to digest, and is often served as a side dish or a light meal, especially during hot days.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 cup rice (preferably basmati or sona masoori)</li>
+                <li>1 cup plain yogurt (curd)</li>
+                <li>1 tbsp oil (preferably coconut oil or vegetable oil)</li>
+                <li>1/2 tsp mustard seeds</li>
+                <li>1/2 tsp cumin seeds</li>
+                <li>1/4 tsp turmeric powder</li>
+                <li>1/4 tsp asafoetida (hing)</li>
+                <li>2 dried red chilies</li>
+                <li>1 sprig curry leaves</li>
+                <li>1-2 green chilies, chopped (optional)</li>
+                <li>1/4 cup pomegranate seeds (optional)</li>
+                <li>2 tbsp coriander leaves, chopped</li>
+                <li>Salt to taste</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Wash the rice thoroughly and cook it with 2 cups of water until soft and fluffy. Let the rice cool down to room temperature or slightly warm.</li>
+                <li>In a bowl, whisk the yogurt until smooth. Add the cooled rice to the yogurt and mix gently to combine.</li>
+                <li>In a pan, heat oil over medium heat. Add mustard seeds and let them splutter.</li>
+                <li>Add cumin seeds, dried red chilies, and curry leaves. Sauté for a minute until fragrant.</li>
+                <li>If using green chilies, add them to the pan and sauté for another minute.</li>
+                <li>Now, add turmeric powder and asafoetida (hing), and stir well for a few seconds.</li>
+                <li>Pour this tempering into the rice and yogurt mixture. Mix thoroughly to combine all ingredients.</li>
+                <li>Add salt to taste and mix again. You can also add a little water to adjust the consistency if needed.</li>
+                <li>Garnish with fresh coriander leaves and pomegranate seeds (optional) for a refreshing touch.</li>
+                <li>Serve chilled or at room temperature with pickle or papad on the side.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=c6S9skegZ1c" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/I2hg1kvclX7uORX52decPEF0OrqkAKHtStAd2Idy3pY/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEzLzYwLzMxLzk3/LzM2MF9GXzEzNjAz/MTk3MDhfMkhkM3hV/MDBVSEsxYlc4VTU0/Y3FKMzdXV0RIeDdI/T3IuanBn')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 180 kcal</p>
+                <p><strong>Carbs:</strong> 30g</p>
+                <p><strong>Protein:</strong> 4g</p>
+                <p><strong>Fat:</strong> 7g</p>
+                <p><strong>Fiber:</strong> 2g</p>
+            </div>
+        </div>
+    </div>
+    <div id="vegetable-biryani" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Vegetable Biryani</h1>
+            <p>Vegetable Biryani is a fragrant and flavorful rice dish made with basmati rice, a mix of vegetables, and aromatic Indian spices. It’s a popular one-pot meal perfect for lunch, dinner, or festive occasions.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 cup basmati rice (soaked for 30 mins)</li>
+                <li>1.5 cups mixed vegetables (carrot, beans, peas, potato)</li>
+                <li>1 large onion, thinly sliced</li>
+                <li>1 tomato, chopped</li>
+                <li>1/2 cup yogurt (curd)</li>
+                <li>2 tbsp oil or ghee</li>
+                <li>1 tsp ginger-garlic paste</li>
+                <li>Whole spices: 1 bay leaf, 2 cloves, 2 cardamoms, 1-inch cinnamon stick</li>
+                <li>Spices: 1/2 tsp turmeric, 1 tsp red chili powder, 1 tsp garam masala</li>
+                <li>Salt to taste</li>
+                <li>Fresh coriander and mint leaves</li>
+                <li>2 cups water</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Wash and soak basmati rice for 30 minutes. Drain before using.</li>
+                <li>Heat oil or ghee in a deep pan. Add whole spices and sauté for a few seconds until fragrant.</li>
+                <li>Add sliced onions and sauté until golden brown.</li>
+                <li>Add ginger-garlic paste and sauté for 1 minute until raw smell goes away.</li>
+                <li>Mix in chopped tomatoes and cook until soft.</li>
+                <li>Add turmeric, chili powder, garam masala, and salt. Stir well.</li>
+                <li>Add the chopped mixed vegetables and sauté for 2–3 minutes.</li>
+                <li>Lower the heat and mix in yogurt. Stir gently until everything is well combined.</li>
+                <li>Add drained rice and 2 cups of water. Check seasoning.</li>
+                <li>Cover the pan and cook on low heat for about 15–20 minutes or until rice is cooked and water is absorbed.</li>
+                <li>Turn off the heat and let it rest for 5 minutes. Fluff the rice gently.</li>
+                <li>Garnish with chopped coriander and mint leaves. Serve hot with raita or salad.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=X4f6bv-Modg" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/F-E477-Bgbi0WC2ptUqmo6CBrW41AjiNjUtTauyrOOQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA5LzQyLzk4Lzk2/LzM2MF9GXzk0Mjk4/OTYyMl82YlZaUkxZ/M2xodTNvb1hqNlVk/RG5hN2l1VEI2SG9m/Ny5qcGc')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 320 kcal</p>
+                <p><strong>Carbs:</strong> 45g</p>
+                <p><strong>Protein:</strong> 6g</p>
+                <p><strong>Fat:</strong> 12g</p>
+                <p><strong>Fiber:</strong> 5g</p>
+            </div>
+        </div>
+    </div><div id="rasam-rice" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Rasam with Rice</h1>
+            <p>Rasam is a tangy and spicy South Indian soup made with tamarind, tomatoes, and spices. Served hot with steamed rice, it's comforting, flavorful, and great for digestion.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 lemon-sized ball of tamarind (or 1 tbsp tamarind paste)</li>
+                <li>2 ripe tomatoes, chopped</li>
+                <li>2 cups water</li>
+                <li>1 tsp rasam powder</li>
+                <li>1/4 tsp turmeric powder</li>
+                <li>Salt to taste</li>
+                <li>Few coriander leaves for garnish</li>
+                <li>1/4 cup cooked toor dal (optional but adds flavor)</li>
+            </ul>
+    
+            <h3>For Tempering</h3>
+            <ul>
+                <li>1 tsp ghee or oil</li>
+                <li>1/2 tsp mustard seeds</li>
+                <li>1/2 tsp cumin seeds</li>
+                <li>1–2 garlic cloves, crushed</li>
+                <li>1 dried red chili</li>
+                <li>A pinch of asafoetida (hing)</li>
+                <li>Few curry leaves</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Soak tamarind in warm water for 10 mins and extract the juice (or use paste mixed with water).</li>
+                <li>In a pot, add tamarind water, chopped tomatoes, turmeric, salt, and rasam powder. Let it boil for 5–7 mins.</li>
+                <li>Add cooked toor dal and additional water if needed. Simmer for another 5 minutes until well combined.</li>
+                <li>In a small pan, heat ghee. Add mustard seeds and let them splutter.</li>
+                <li>Add cumin, garlic, red chili, curry leaves, and a pinch of asafoetida. Fry for a few seconds.</li>
+                <li>Pour this tempering into the rasam and give it a good stir.</li>
+                <li>Garnish with chopped coriander leaves and serve hot with steamed rice and papad.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=La1FO_pplm4" class="btn btn-link" target="_blank">Video Recipe</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/qXcM3DmmzDjCMHDmlR5md1mFsChpJcqNp7OjozdFnos/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aW5kaWFuaGVhbHRo/eXJlY2lwZXMuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDIw/LzEyL3Jhc2FtLXJl/Y2lwZS1zd2FzdGhp/cy0xLndlYnA')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 140 kcal</p>
+                <p><strong>Carbs:</strong> 22g</p>
+                <p><strong>Protein:</strong> 4g</p>
+                <p><strong>Fat:</strong> 3g</p>
+                <p><strong>Fiber:</strong> 2g</p>
+            </div>
+        </div>
+    </div>
+    <div id="mutton-biryani" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Mutton Biryani</h1>
+            <p>A rich and flavorful rice dish made with tender mutton pieces, aromatic spices, and basmati rice. Perfect for festive meals and special occasions.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>500g mutton (bone-in, washed)</li>
+                <li>2 cups basmati rice (soaked 30 mins)</li>
+                <li>2 onions (sliced)</li>
+                <li>2 tomatoes (chopped)</li>
+                <li>1 cup curd (yogurt)</li>
+                <li>2 tbsp ginger-garlic paste</li>
+                <li>Whole spices: bay leaf, cinnamon, cloves, cardamom</li>
+                <li>Spices: turmeric, red chili powder, coriander powder, garam masala</li>
+                <li>Fresh mint and coriander leaves</li>
+                <li>Saffron strands in warm milk (optional)</li>
+                <li>Salt, oil, and ghee</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>In a pressure cooker or heavy pot, heat oil and ghee. Sauté whole spices, then add onions and cook until golden brown.</li>
+                <li>Add ginger-garlic paste and sauté for a minute. Then add tomatoes and cook until soft.</li>
+                <li>Mix in curd, turmeric, red chili, coriander powder, and salt. Stir well and add mutton pieces.</li>
+                <li>Cook the mutton with closed lid (pressure cook for 3–4 whistles) until tender.</li>
+                <li>In a separate pot, cook soaked basmati rice until 80% done. Drain and keep aside.</li>
+                <li>In a thick-bottomed pot or handi, layer the cooked mutton masala and rice.</li>
+                <li>Top with mint, coriander, a spoon of ghee, and saffron milk. Cover tightly and cook on low heat (dum) for 15–20 minutes.</li>
+                <li>Let it rest for 10 minutes. Fluff gently and serve hot with raita or boiled eggs.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=0qcxu2B6MR4" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/hEFdW-VWrtsgdhD9CG2v8PGgtAeMAPdAqDLT6ucWpOE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/YXdlc29tZWN1aXNp/bmUuY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDE3LzA3L0h5/ZGVyYWJhZGktTXV0/dG9uLUJpcnlhbmku/anBn')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 450 kcal</p>
+                <p><strong>Carbs:</strong> 35g</p>
+                <p><strong>Protein:</strong> 22g</p>
+                <p><strong>Fat:</strong> 25g</p>
+                <p><strong>Fiber:</strong> 3g</p>
+            </div>
+        </div>
+    </div>
+    <div id="rajma-chawal" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Rajma Chawal</h1>
+            <p>A comforting North Indian dish made with red kidney beans cooked in a spiced tomato gravy, served with steamed rice. Nutritious and delicious!</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1 cup rajma (red kidney beans), soaked overnight</li>
+                <li>2 cups water (for pressure cooking)</li>
+                <li>2 onions (finely chopped)</li>
+                <li>2 tomatoes (pureed or chopped)</li>
+                <li>1 tbsp ginger-garlic paste</li>
+                <li>1/2 tsp cumin seeds</li>
+                <li>Spices: turmeric, red chili powder, coriander powder, garam masala</li>
+                <li>Salt and oil</li>
+                <li>Fresh coriander for garnish</li>
+                <li>2 cups cooked basmati rice (for serving)</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Pressure cook soaked rajma with water and a bit of salt for 4–5 whistles or until soft. Set aside.</li>
+                <li>In a pan, heat oil and add cumin seeds. Let them splutter.</li>
+                <li>Add onions and sauté until golden. Then add ginger-garlic paste and cook for a minute.</li>
+                <li>Add tomato puree and cook until oil separates.</li>
+                <li>Add spices: turmeric, red chili, coriander powder, and salt. Mix well.</li>
+                <li>Add cooked rajma along with the water. Simmer for 15–20 minutes until thick and flavorful.</li>
+                <li>Add garam masala and fresh coriander leaves at the end. Stir and turn off the heat.</li>
+                <li>Serve hot with steamed rice and onion salad.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=oUz9914U-v0" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/uk2QZDv7DvPgm8wvTbpypUPToHgW_dF2EkrsblbvMFk/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Y29va2luZ2FuZG1l/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAxMi8wNi83MzYx/NzU5MjU4X2YxMTM1/NmJjZDNfejEud2Vi/cA')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 390 kcal</p>
+                <p><strong>Carbs:</strong> 55g</p>
+                <p><strong>Protein:</strong> 13g</p>
+                <p><strong>Fiber:</strong> 10g</p>
+            </div>
+        </div>
+    </div>
+    <div id="palak-paneer" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Palak Paneer</h1>
+            <p>A classic North Indian dish made with soft paneer cubes simmered in a smooth spinach gravy. Rich in iron and protein, perfect with roti or rice!</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>200g paneer (cubed)</li>
+                <li>2 cups spinach leaves (washed and chopped)</li>
+                <li>1 onion (chopped)</li>
+                <li>1 tomato (chopped)</li>
+                <li>1 green chili</li>
+                <li>1 tbsp ginger-garlic paste</li>
+                <li>1/2 tsp cumin seeds</li>
+                <li>Spices: turmeric, garam masala, coriander powder, red chili powder</li>
+                <li>Salt, oil, and water as needed</li>
+                <li>1 tbsp fresh cream (optional)</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Boil spinach in hot water for 2–3 minutes, then transfer to cold water. Blend with green chili into a smooth puree.</li>
+                <li>In a pan, heat oil and add cumin seeds. Sauté onions until golden.</li>
+                <li>Add ginger-garlic paste and sauté until raw smell disappears.</li>
+                <li>Add chopped tomatoes and cook until soft.</li>
+                <li>Add spices: turmeric, coriander powder, red chili powder. Mix well.</li>
+                <li>Add spinach puree and cook for 5–7 minutes. Add water if needed for consistency.</li>
+                <li>Add paneer cubes and let them simmer in the gravy for 5 minutes.</li>
+                <li>Sprinkle garam masala and stir in cream if using. Serve hot with rice or naan.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=cRsAQeR5dbI" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/Uy642d3z1NsI_eEK_2heJ6axP3G2N31_i6jppKNLk9U/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9zcGluYWNoLXBh/bmVlci13b25kZXJf/MTE3OTEzMC02OTQy/MC5qcGc_c2VtdD1h/aXNfaHlicmlk')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 320 kcal</p>
+                <p><strong>Carbs:</strong> 12g</p>
+                <p><strong>Protein:</strong> 14g</p>
+                <p><strong>Fiber:</strong> 4g</p>
+            </div>
+        </div>
+    </div>
+    <div id="dal-makhani" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Dal Makhani</h1>
+            <p>A rich and creamy Punjabi lentil curry made with whole black lentils and kidney beans, slow-cooked with butter and spices. Perfect with naan or rice!</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>1/2 cup whole black urad dal (black lentils)</li>
+                <li>2 tbsp rajma (kidney beans)</li>
+                <li>1 onion (finely chopped)</li>
+                <li>2 tomatoes (pureed)</li>
+                <li>1 tbsp ginger-garlic paste</li>
+                <li>2 tbsp butter + 1 tbsp cream</li>
+                <li>1/2 tsp cumin seeds</li>
+                <li>Spices: turmeric, red chili powder, garam masala</li>
+                <li>Salt, water, oil</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Soak urad dal and rajma overnight. Pressure cook with salt and water until soft (5–6 whistles).</li>
+                <li>In a pan, heat butter. Add cumin seeds, then onions. Sauté till golden brown.</li>
+                <li>Add ginger-garlic paste and sauté until fragrant.</li>
+                <li>Add tomato puree and cook until oil separates.</li>
+                <li>Mix in turmeric, chili powder, and salt. Cook for 2–3 mins.</li>
+                <li>Add cooked dal and rajma. Mash slightly, mix, and simmer for 20–25 mins on low heat, stirring occasionally.</li>
+                <li>Finish with cream and garam masala. Simmer for 5 more mins and serve hot.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=ca51e7nMI2g" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/7a5xIRof2DJXUL85ha4lmhfn2-ihcV8hecJCOsX4wJY/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzEyLzQ1LzQ0LzUw/LzM2MF9GXzEyNDU0/NDUwNzZfdUVkeFBp/VWg2bDg1a0hTV2M4/Umc2bFdZY24zMm1L/ZFguanBn')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per bowl)</h2>
+                <p><strong>Calories:</strong> 290 kcal</p>
+                <p><strong>Carbs:</strong> 30g</p>
+                <p><strong>Protein:</strong> 12g</p>
+                <p><strong>Fiber:</strong> 9g</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="butter-chicken" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Butter Chicken</h1>
+            <p>Butter Chicken (Murgh Makhani) is a creamy and mildly spiced North Indian curry made with marinated chicken cooked in a rich tomato-butter-cream sauce. A crowd favorite served with naan or rice.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>500g boneless chicken (preferably thighs or breast), cut into cubes</li>
+                <li>1 cup yogurt (for marination)</li>
+                <li>1 tbsp ginger-garlic paste</li>
+                <li>1 tsp red chili powder</li>
+                <li>Salt to taste</li>
+                <li>2 tbsp butter</li>
+                <li>1 tbsp oil</li>
+                <li>2 large tomatoes, pureed</li>
+                <li>1 tsp cumin seeds</li>
+                <li>1/2 tsp turmeric powder</li>
+                <li>1 tsp garam masala</li>
+                <li>1 tbsp kasuri methi (dried fenugreek leaves)</li>
+                <li>3 tbsp fresh cream</li>
+                <li>1 tsp sugar (optional)</li>
+                <li>Coriander leaves for garnish</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li><strong>Marinate the chicken:</strong> In a bowl, mix chicken with yogurt, ginger-garlic paste, red chili powder, and salt. Let it marinate for at least 1 hour (or overnight for better flavor).</li>
+                <li><strong>Cook the chicken:</strong> Heat 1 tbsp oil in a pan. Add the marinated chicken and cook on medium heat until it's fully cooked and lightly browned. Remove and set aside.</li>
+                <li><strong>Prepare the gravy:</strong> In the same pan, add 2 tbsp butter and cumin seeds. Let them sizzle.</li>
+                <li>Add the tomato puree and cook on medium heat until the raw smell disappears and the oil begins to separate (about 8–10 minutes).</li>
+                <li>Add turmeric, garam masala, kasuri methi (crushed between palms), and salt. Mix well.</li>
+                <li><strong>Combine chicken and gravy:</strong> Add the cooked chicken pieces into the gravy. Mix and cook for another 5–7 minutes to blend the flavors.</li>
+                <li>Add cream and a little sugar if the gravy tastes too tangy. Simmer for 2–3 more minutes.</li>
+                <li>Garnish with chopped coriander and a swirl of cream. Serve hot with naan or basmati rice.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=a03U45jFxOI" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/AEGtYDQojYbAELDWa-P1xR_-gPjAFbbRkJzI-Y3xyfA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9idXR0ZXItY2hp/Y2tlbl80NjY2ODkt/NTQ3NzYuanBnP3Nl/bXQ9YWlzX2h5YnJp/ZCZ3PTc0MA')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 400 kcal</p>
+                <p><strong>Carbs:</strong> 10g</p>
+                <p><strong>Protein:</strong> 28g</p>
+                <p><strong>Fat:</strong> 28g</p>
+            </div>
+        </div>
+    </div>
+    <div id="aloo-gobi" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Aloo Gobi</h1>
+            <p>A classic North Indian dry curry made with potatoes (aloo) and cauliflower (gobi), seasoned with aromatic spices. It's comforting, healthy, and best enjoyed with roti or rice.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>2 medium potatoes, peeled and diced</li>
+                <li>1 small cauliflower, cut into small florets</li>
+                <li>1 onion, finely chopped</li>
+                <li>1 tomato, finely chopped</li>
+                <li>1 tsp cumin seeds</li>
+                <li>1 tsp ginger-garlic paste</li>
+                <li>1/2 tsp turmeric powder</li>
+                <li>1 tsp red chili powder</li>
+                <li>1 tsp coriander powder</li>
+                <li>1/2 tsp garam masala</li>
+                <li>Salt to taste</li>
+                <li>2 tbsp oil</li>
+                <li>Fresh coriander leaves for garnish</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li><strong>Prepare the vegetables:</strong> Wash and chop the cauliflower into small florets. Dice the potatoes into medium cubes. You can lightly blanch the cauliflower for 2–3 minutes in hot water to remove any insects and soften it slightly (optional).</li>
+                <li><strong>Sauté the spices:</strong> Heat oil in a pan. Add cumin seeds and let them crackle.</li>
+                <li>Add chopped onions and sauté until golden brown. Then add ginger-garlic paste and cook for a minute until fragrant.</li>
+                <li>Add chopped tomato, turmeric, red chili powder, coriander powder, and salt. Cook until the tomato becomes soft and the oil starts to separate.</li>
+                <li><strong>Cook the vegetables:</strong> Add the diced potatoes and cauliflower florets. Mix everything well to coat the veggies with the masala.</li>
+                <li>Cover and cook on low to medium heat for 12–15 minutes, stirring occasionally to prevent burning. Sprinkle a little water if it starts to stick, but avoid adding too much — this is a dry dish.</li>
+                <li>Once the potatoes and cauliflower are soft and cooked, add garam masala and mix gently.</li>
+                <li>Garnish with chopped coriander leaves and serve hot with roti or dal-rice.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=aGx_1g2ksdA" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/HyropDuOCzAQl3tfLV9evTQYnGkfJMdEpY9ohFKdag4/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMwMS5ueXQuY29t/L2ltYWdlcy8yMDIz/LzEyLzIxL211bHRp/bWVkaWEvTkQtQWxv/by1Hb2JpLWdrd2Mv/TkQtQWxvby1Hb2Jp/LWdrd2MtanVtYm8u/anBn')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 200 kcal</p>
+                <p><strong>Carbs:</strong> 28g</p>
+                <p><strong>Protein:</strong> 4g</p>
+                <p><strong>Fiber:</strong> 6g</p>
+            </div>
+        </div>
+    </div>
+    <div id="spaghetti-aglio-e-olio" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Spaghetti Aglio e Olio</h1>
+            <p>A classic Italian pasta dish from Naples, made with simple pantry ingredients — garlic, olive oil, chili flakes, and spaghetti. It's quick, easy, and bursting with flavor!</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>200g (about 7 oz) spaghetti</li>
+                <li>4–6 cloves garlic, thinly sliced</li>
+                <li>1/4 cup extra virgin olive oil</li>
+                <li>1 tsp red chili flakes (adjust to taste)</li>
+                <li>Salt, to taste</li>
+                <li>Freshly ground black pepper (optional)</li>
+                <li>2 tbsp chopped fresh parsley (optional)</li>
+                <li>Grated parmesan cheese (optional, for serving)</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li><strong>Boil the pasta:</strong> Bring a large pot of salted water to a boil. Add spaghetti and cook until al dente, according to package instructions (usually 8–10 minutes). Reserve 1/2 cup of pasta water before draining.</li>
+                <li><strong>Prepare the garlic oil:</strong> While the pasta is boiling, heat olive oil in a large pan over medium heat.</li>
+                <li>Add the sliced garlic and sauté gently, stirring often. Cook until the garlic turns golden and fragrant (about 2–3 minutes). Be careful not to burn it, as it turns bitter.</li>
+                <li><strong>Add chili flakes:</strong> Once garlic is lightly golden, add chili flakes and stir for a few seconds to infuse the oil with spice.</li>
+                <li><strong>Toss the pasta:</strong> Add the drained spaghetti to the garlic oil. Toss everything together well, ensuring the spaghetti is coated evenly. If it feels too dry, add a splash of reserved pasta water to loosen it.</li>
+                <li><strong>Season and garnish:</strong> Season with salt and a little black pepper if you like. Add chopped parsley for freshness.</li>
+                <li><strong>Serve immediately:</strong> Serve hot with optional grated parmesan cheese on top, although traditional versions are served without cheese.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=KLdZ8FyZ8Ho" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/--weQ291x6h1ybWsUk2pyuJ6JXAwqyTU-5UQC2MewWQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/c2ltcGx5cmVjaXBl/cy5jb20vdGhtYi9S/dnRINUZJbHFWcUU3/YnFnRWhRWUlUN1pO/aDA9LzE1MDB4MC9m/aWx0ZXJzOm5vX3Vw/c2NhbGUoKTptYXhf/Ynl0ZXMoMTUwMDAw/KTpzdHJpcF9pY2Mo/KS9TaW1wbHktUmVj/aXBlcy1TcGFnaGV0/dGktQWdsaW8tZS1P/bGlvLUxFQUQtNGEt/NGQzNTMxZTE5ZTYx/NDY0YTg1ZjJkZDRj/NmIzODdkYzkuanBn')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 400 kcal</p>
+                <p><strong>Carbs:</strong> 55g</p>
+                <p><strong>Protein:</strong> 8g</p>
+                <p><strong>Fat:</strong> 15g</p>
+                <p><strong>Fiber:</strong> 3g</p>
+            </div>
+        </div>
+    </div>
+    <div id="vegetable-fried-rice" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Vegetable Fried Rice</h1>
+            <p>A quick and delicious Indo-Chinese rice dish packed with colorful vegetables, perfect for lunch or dinner. It's flavorful, easy to make, and can be served on its own or with a side of manchurian or chili paneer.</p>
+    
+            <h2>Ingredients</h2>
+            <ul>
+                <li>2 cups cooked rice (preferably a day old, long grain or basmati)</li>
+                <li>1/4 cup finely chopped carrots</li>
+                <li>1/4 cup chopped green beans</li>
+                <li>1/4 cup chopped cabbage</li>
+                <li>1/4 cup chopped capsicum (bell peppers)</li>
+                <li>2 tbsp spring onions (white and green parts separated)</li>
+                <li>2–3 garlic cloves, finely chopped</li>
+                <li>1–2 green chilies, slit (optional)</li>
+                <li>1 tbsp soy sauce</li>
+                <li>1 tsp vinegar</li>
+                <li>1/2 tsp black pepper powder</li>
+                <li>Salt to taste</li>
+                <li>2 tbsp oil (preferably sesame or any neutral oil)</li>
+            </ul>
+    
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li><strong>Prep the rice:</strong> Make sure the cooked rice is cool and not sticky. Spread it on a plate if freshly made. Cold, day-old rice works best.</li>
+                <li><strong>Heat the pan:</strong> In a large wok or pan, heat oil over medium-high flame. Add chopped garlic and green chilies. Sauté for a few seconds until aromatic.</li>
+                <li><strong>Cook vegetables:</strong> Add spring onion whites, carrots, beans, and cabbage. Stir fry for 2–3 minutes on high heat until veggies are slightly tender but still crisp.</li>
+                <li>Add capsicum and stir fry for another minute. Avoid overcooking to retain crunch.</li>
+                <li><strong>Flavoring:</strong> Add soy sauce, vinegar, black pepper, and salt. Mix well to coat the vegetables evenly.</li>
+                <li><strong>Add rice:</strong> Now add the cooked rice. Gently mix everything using a spatula so that rice grains don’t break. Toss the rice on high heat for 2–3 minutes.</li>
+                <li><strong>Garnish and serve:</strong> Add spring onion greens and mix once more. Serve hot as is or with your favorite side.</li>
+            </ol>
+    
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=bXgxzzNm0U8" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/UQdNh8qk1kYk31SH-fyuPj3tMr4BPP743tIpUjM7v-g/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQz/NTI4NzU3L3Bob3Rv/L2ZyaWVkLXJpY2Uu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PW1nUWRNeVhTLVZ5/SmJMczVrdlBZd200/RHl3QjNCcnIyVUhR/dEVLTTh3eFU9')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 300 kcal</p>
+                <p><strong>Carbs:</strong> 45g</p>
+                <p><strong>Protein:</strong> 6g</p>
+                <p><strong>Fat:</strong> 10g</p>
+                <p><strong>Fiber:</strong> 3g</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <div id="french-toast" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Classic French Toast</h1>
+            <p>A delightful breakfast made by soaking bread in an egg mixture and frying to golden perfection. Best served with maple syrup or fruits.</p>
+            <h2>Ingredients</h2>
+            <ul>
+                <li>4 slices bread</li>
+                <li>2 eggs</li>
+                <li>1/4 cup milk</li>
+                <li>1 tsp vanilla & cinnamon</li>
+                <li>Butter for frying</li>
+            </ul>
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Whisk eggs, milk, cinnamon, vanilla.</li>
+                <li>Dip bread slices, coat evenly.</li>
+                <li>Fry on buttered skillet until golden.</li>
+            </ol>
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=fqXWCoK0e64" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/yFMUHrn1uejjLUGpwKD40o3IDoyj7wQFWFAlZtG7wwI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTcx/Mjc2NDM5L3Bob3Rv/L2ZyZW5jaC10b2Fz/dC5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9QmxnWTlySWZT/VEw1X0lTejdsbkRM/MzZoSTZESWJKN3lE/Wk15TC0waVVJUT0')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (2 slices)</h2>
+                <p><strong>Calories:</strong> 280 kcal</p>
+                <p><strong>Carbs:</strong> 25g</p>
+                <p><strong>Protein:</strong> 9g</p>
+                <p><strong>Fat:</strong> 14g</p>
+            </div>
+        </div>
+    </div>
+    <div id="egg-bhurji" class="recipe-container">
+        <div class="recipe-content">
+            <h1>Spicy Egg Bhurji</h1>
+            <p>A flavorful Indian-style scrambled egg dish made with onions, tomatoes, chilies, and aromatic spices — quick and satisfying!</p>
+            <h2>Ingredients</h2>
+            <ul>
+                <li>3 eggs</li>
+                <li>1 onion, 1 tomato (chopped)</li>
+                <li>2 green chilies</li>
+                <li>Spices: turmeric, cumin, chili powder</li>
+                <li>Oil, salt, coriander leaves</li>
+            </ul>
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li>Sauté onions, tomatoes, and spices in oil.</li>
+                <li>Add eggs and scramble until cooked.</li>
+                <li>Garnish with coriander and serve hot.</li>
+            </ol>
+            <div class="action-buttons">
+                <a href="https://www.youtube.com/watch?v=glUEnS8J84Q&t=10s" class="btn btn-link" target="_blank">Recipe Video</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://imgs.search.brave.com/ZpjcZ-aqIy4eiz98LGzu6Gcz3f3MgCp5Qc1wUCr8TKQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9teWhl/YXJ0YmVldHMuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDE4/LzAyL3NjcmFtYmxl/ZC1lZ2dzLWluZGlh/bi1hbmRhLWJodXJq/aS5qcGc')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per serving)</h2>
+                <p><strong>Calories:</strong> 220 kcal</p>
+                <p><strong>Protein:</strong> 12g</p>
+                <p><strong>Fat:</strong> 17g</p>
+                <p><strong>Carbs:</strong> 4g</p>
+            </div>
+        </div>
+    </div>
+    
+    
+   
+    <div id="upma" class="recipe-container upma">
+        <div class="recipe-content">
+            <h1>Upma Recipe</h1>
+            
+            <p class="description">Upma is a classic South Indian breakfast dish made with semolina (rava), seasoned with mustard seeds, curry leaves, and vegetables. This wholesome dish is quick to prepare and packed with flavors.</p>
+            
+            <h2>Ingredients</h2>
+            <ul>
+                <li><strong>1 cup</strong> fine semolina (rava/sooji)</li>
+                <li><strong>2 tbsp</strong> ghee or oil</li>
+                <li><strong>1 tsp</strong> mustard seeds</li>
+                <li><strong>1 tsp</strong> urad dal (split black gram)</li>
+                <li><strong>1 tsp</strong> chana dal (split chickpeas)</li>
+                <li><strong>1-2</strong> green chilies, slit lengthwise</li>
+                <li><strong>1 inch</strong> ginger, finely chopped</li>
+                <li><strong>10-12</strong> fresh curry leaves</li>
+                <li><strong>1</strong> medium onion, finely chopped</li>
+                <li><strong>1/4 cup</strong> mixed vegetables (carrots, peas, beans - optional)</li>
+                <li><strong>2 cups</strong> water</li>
+                <li><strong>1/2 tsp</strong> turmeric powder</li>
+                <li><strong>1 tbsp</strong> lemon juice</li>
+                <li><strong>2 tbsp</strong> chopped coriander leaves</li>
+                <li>Salt to taste</li>
+            </ul>
+            
+            <h2>Preparation Steps</h2>
+            <ol>
+                <li><strong>Dry roast the semolina:</strong> In a pan, dry roast the semolina on medium heat for 4-5 minutes until it turns aromatic and light golden. Transfer to a plate and set aside.</li>
+                <li><strong>Prepare the tempering:</strong> Heat ghee/oil in the same pan. Add mustard seeds and let them splutter. Then add urad dal and chana dal, sauté until golden.</li>
+                <li><strong>Add aromatics:</strong> Add green chilies, ginger, and curry leaves. Sauté for 30 seconds until fragrant.</li>
+                <li><strong>Cook vegetables:</strong> Add chopped onions and sauté until translucent. If using vegetables, add them now and cook for 2 minutes.</li>
+                <li><strong>Boil water:</strong> Add 2 cups of water, turmeric powder, and salt. Bring to a rolling boil.</li>
+                <li><strong>Add semolina:</strong> Reduce heat to low. Slowly add the roasted semolina while stirring continuously to prevent lumps.</li>
+                <li><strong>Cook covered:</strong> Cover and cook on low heat for 3-4 minutes until the water is absorbed and upma is fluffy.</li>
+                <li><strong>Finish with garnishes:</strong> Turn off heat. Add lemon juice and chopped coriander. Mix well.</li>
+                <li><strong>Serve hot:</strong> Fluff with a fork and serve immediately with coconut chutney or pickle.</li>
+            </ol>
+            
+            <div class="tips-section">
+                <h3>Chef's Tips</h3>
+                <ul>
+                    <li>For richer flavor, use ghee instead of oil</li>
+                    <li>Roasting semolina well is key to prevent stickiness</li>
+                    <li>Add water carefully - too much makes it mushy, too little makes it dry</li>
+                    <li>For variation, add cashews or peanuts during tempering</li>
+                </ul>
+            </div>
+            
+            <p class="serving-suggestions">Serving suggestion: Pair with coconut chutney and filter coffee for authentic South Indian breakfast experience.</p>
+            
+            <div class="action-buttons">
+                <a href="https://en.wikipedia.org/wiki/Upma" class="btn btn-link">Explore Upma History</a>
+                <button class="btn btn-favorite" onclick="toggleFavorite(this)">❤️ Add to Favorites</button>
+            </div>
+        </div>
+        
+        <div class="recipe-sidebar">
+            <div class="recipe-image" style="background-image: url('https://th.bing.com/th/id/OIP.boBBw90ShLIHl5l9pQvbQgHaE7?w=306&h=204&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2')"></div>
+            <div class="nutrition-info">
+                <h2>Nutrition (per Serving)</h2>
+                <p><strong>Serving Size:</strong> 1 bowl (approx. 200g)</p>
+                <p><strong>Calories:</strong> 250 kcal</p>
+                <p><strong>Carbohydrates:</strong> 40g</p>
+                <p><strong>Protein:</strong> 6g</p>
+                <p><strong>Fat:</strong> 7g</p>
+                <p><strong>Fiber:</strong> 3g</p>
+                <p><strong>Sugar:</strong> 2g</p>
+                <p><strong>Sodium:</strong> 300mg</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Show the selected recipe and hide others
+        function showRecipe(recipeId) {
+            document.getElementById('recipe-grid-view').style.display = 'none';
+            document.querySelectorAll('.recipe-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.getElementById(recipeId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    
+        // Toggle favorite and store in localStorageb
+        function toggleFavorite(button) {
+            const container = button.closest('.recipe-container');
+            const id = container.id;
+            const title = container.querySelector('h1')?.innerText || "Recipe";
+            const description = container.querySelector('p')?.innerText || "";
+            const imageStyle = container.querySelector('.recipe-image')?.style.backgroundImage;
+            const image = imageStyle ? imageStyle.slice(5, -2) : "";
+            const link = `#${id}`;
+    
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    
+            const index = favorites.findIndex(fav => fav.id === id);
+    
+            if (index === -1) {
+                favorites.push({ id, title, description, image, link });
+                button.textContent = '❤️ Recipe Saved!';
+                button.classList.add('favorited');
+            } else {
+                favorites.splice(index, 1);
+                button.textContent = '❤️ Add to Favorites';
+                button.classList.remove('favorited');
+            }
+    
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+    
+        // Back to grid view
+        function backToGrid() {
+            document.getElementById('recipe-grid-view').style.display = 'block';
+            document.querySelectorAll('.recipe-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            window.scrollTo(0, 0);
+        }
+    
+        // Add back buttons to all recipe containers
+        
+        window.addEventListener('load', function () {
+    const hash = window.location.hash.substring(1); // remove the #
+    if (hash) {
+        showRecipe(hash);
+    }
+});
+    </script>
+</body>
+</html>
